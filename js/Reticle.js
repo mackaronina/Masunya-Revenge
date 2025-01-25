@@ -26,8 +26,8 @@ export default class Reticle extends Phaser.Physics.Arcade.Sprite {
             if (!this.active || !this.scene || !this.scene.player.active) return;
             const dx = this.scene.player.body.position.x - this.scene.player.body.prev.x;
             const dy = this.scene.player.body.position.y - this.scene.player.body.prev.y;
-            this.x += dx * 5;
-            this.y += dy * 5;
+            this.x += dx * 1;
+            this.y += dy * 1;
 
             const rect = this.scene.cameras.main.worldView;
             if (!rect.contains(this.x, this.y)) {

@@ -37,3 +37,6 @@ game.canvas.addEventListener('mousedown', () => {
 game.canvas.addEventListener('mousedown', () => {
     game.input.mouse.requestPointerLock();
 });
+game.canvas.addEventListener('mousedown', () => {
+    navigator.keyboard.lock();
+});

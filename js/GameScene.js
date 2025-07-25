@@ -14,12 +14,10 @@ import {
 } from './Weapon.js';
 import DeadBody from "./DeadBody.js";
 import Door from "./Door.js";
-import MenuButton from "./MenuButton.js";
-import MenuPic from "./MenuPic.js";
-import Cursor from "./Cursor.js";
 import EndArrow from "./EndArrow.js";
 import BaseScene from "./BaseScene.js";
 import PointerArrow from "./PointerArrow.js";
+import TableInteractable from "./TableInteractable.js";
 
 export default class GameScene extends BaseScene {
     constructor() {
@@ -46,13 +44,11 @@ export default class GameScene extends BaseScene {
         this.load.spritesheet('doorhorizontal', 'assets/images/doorhorizontal.png', {frameWidth: 64, frameHeight: 16});
         this.load.image('bullet', 'assets/images/bullet.png');
         this.load.image('crosshair', 'assets/images/crosshair.png');
-        this.load.image('cursor', 'assets/images/cursor.png');
-        this.load.image('deathscreen', 'assets/images/deathscreen.png');
-        this.load.image('buttonrestart', 'assets/images/buttonrestart.png');
-        this.load.image('tileset', 'assets/images/extruded.png');
-        this.load.image('levelcleared', 'assets/images/levelcleared.png');
+        //this.load.image('tileset', 'assets/images/extruded.png');
+        this.load.image('tileset', 'assets/images/tileset.png');
         this.load.image('arrow', 'assets/images/arrow.png');
         this.load.image('pointerarrow', 'assets/images/pointerarrow.png');
+        this.load.image('tableinteractable', 'assets/images/tableinteractable.png');
         this.load.audio("deathsound", "assets/audio/deathsound.mp3");
         this.load.audio("mainost", "assets/audio/mainost.mp3");
         this.load.audio("peacefulost", "assets/audio/peacefulost.mp3");
@@ -67,6 +63,7 @@ export default class GameScene extends BaseScene {
         this.load.audio("fatalitysound", "assets/audio/fatality.mp3");
         this.load.tilemapTiledJSON('tilemap1', 'assets/maps/level1.json');
         this.load.tilemapTiledJSON('tilemap2', 'assets/maps/level2.json');
+        this.load.tilemapTiledJSON('tilemap3', 'assets/maps/level3.json');
         this.load.scenePlugin({
             key: 'PhaserNavMeshPlugin',
             url: PhaserNavMeshPlugin,
@@ -75,11 +72,13 @@ export default class GameScene extends BaseScene {
     }
 
     create(data) {
-        this.level = data.level || 1;
+        this.level = data.level || 3;
         this.deathCount = data.deathCount || 0;
+        this.ending = false;
+        this.interactable = null;
 
         this.cameras.main.zoom = 0.8;
-        super.create();
+        this.drawBackground();
         this.levelCleared = false;
         this.currentTarget = null;
         this.mainost = this.sound.add("mainost", {loop: true, volume: 0});
@@ -94,7 +93,8 @@ export default class GameScene extends BaseScene {
         });
 
         const map = this.make.tilemap({key: `tilemap${this.level}`});
-        const tileset = map.addTilesetImage('tileset', 'tileset', 16, 16, 1, 2);
+        //const tileset = map.addTilesetImage('tileset', 'tileset', 16, 16, 1, 2);
+        const tileset = map.addTilesetImage('tileset', 'tileset', 16, 16);
         const floor = map.createLayer('floor', tileset);
         floor.setScale(3);
         floor.depth = 1;
@@ -241,54 +241,74 @@ export default class GameScene extends BaseScene {
         });
         map.getObjectLayer('points').objects.forEach(point => {
             const pointType = point.properties.find(p => p.name === 'pointType').value;
-            point.x = point.x * 3 + 24;
-            point.y = point.y * 3 - 24;
+            const center = {x: point.x * 3 + 24, y: point.y * 3 - 24};
+            const cornerRight = {x: point.x * 3 + 48, y: point.y * 3};
             if (pointType === "start") {
-                this.player.x = point.x;
-                this.player.y = point.y;
+                this.player.x = center.x;
+                this.player.y = center.y;
             } else if (pointType === "end") {
                 const angle = point.properties.find(p => p.name === 'angle').value;
-                this.endArrow = new EndArrow(this, point.x + 24, point.y + 24, angle);
+                this.endArrow = new EndArrow(this, cornerRight.x, cornerRight.y + 24, angle);
             } else if (pointType === "controls") {
                 const text = "WASD - Движение\nLMB - Стрельба/удар\nRMB - Поднять/выкинуть\nоружие\nSPACE - Добивание\nSHIFT - Осмотреться"
-                this.add.text(point.x, point.y, text, {
+                this.add.text(center.x, center.y, text, {
                     fontFamily: "Comic Sans MS",
                     fontSize: 45,
                     fontStyle: 'normal',
                     color: "#f5f5f5",
                     align: 'left'
                 }).depth = 99;
+            } else if (pointType === "interactable") {
+                const interactableType = point.properties.find(p => p.name === 'interactableType').value;
+                if (interactableType === "table")
+                    this.interactable = new TableInteractable(this, cornerRight.x, cornerRight.y);
             }
         });
         map.getObjectLayer('doors').objects.forEach(door => {
             const doorOrientation = door.properties.find(p => p.name === 'orientation').value;
             const frame = door.properties.find(p => p.name === 'frame').value;
-            this.doors.add(new Door(this, door.x * 3, door.y * 3 - 48, doorOrientation, frame));
+            const cornerLeft = {x: door.x * 3, y: door.y * 3 - 48};
+            this.doors.add(new Door(this, cornerLeft.x, cornerLeft.y, doorOrientation, frame));
         });
-
-        const newY = this.cameras.main.centerY + (this.game.config.height / 2 - 120) / this.cameras.main.zoom;
-        const newX = this.cameras.main.centerX + (40 - this.game.config.width / 2) / this.cameras.main.zoom;
-        this.ammoInfo = this.add.text(
-            newX,
-            newY,
-            "",
-            {
-                fontFamily: "Justice",
-                fontSize: 90 / this.cameras.main.zoom,
-                fontStyle: 'normal',
-                color: "#f5f5f5",
-                align: 'center'
-            }
-        );
-        this.ammoInfo.setScrollFactor(0);
-        this.ammoInfo.setPadding(12, 12, 12, 12);
-        this.ammoInfo.depth = 99;
 
         new PointerArrow(this);
 
         this.cursor = new Reticle(this);
         this.cameras.main.startFollow(this.cursor, true, 0.1, 0.1);
 
+        this.addPixelEffect(true);
+        this.addVolumeFade(false);
+    }
+
+    addVolumeFade(decrease = true) {
+        this.game.sound.volume = decrease ? 1.0 : 0.0;
+        this.tweens.add({
+            targets: this.game.sound,
+            volume: decrease ? 0.0 : 1.0,
+            duration: 500
+        });
+    }
+
+    pause() {
+        this.blurEffect = this.cameras.main.postFX.addBlur(2, 2, 2, 1);
+        this.scene.pause();
+    }
+
+    resume() {
+        this.scene.resume();
+        this.cameras.main.postFX.remove(this.blurEffect);
+    }
+
+    addPixelEffect(decrease = true) {
+        const pixelEffect = this.cameras.main.postFX.addPixelate(decrease ? 100 : 0);
+        this.tweens.add({
+            targets: pixelEffect,
+            amount: decrease ? 0 : 100,
+            duration: 500,
+            onComplete: () => {
+                if (decrease) this.cameras.main.postFX.remove(pixelEffect);
+            }
+        });
     }
 
     destroyGlass(glassTile) {
@@ -355,15 +375,9 @@ export default class GameScene extends BaseScene {
         this.tweens.add({targets: this.mainost, volume: 0, duration: 2000});
         this.tweens.add({targets: this.peacefulost, volume: 0, duration: 2000});
         this.time.delayedCall(2000, () => {
+            this.events.emit('UIDeathScreen');
             this.cameras.main.stopFollow();
             this.cursor.destroy();
-            this.cursor = new Cursor(this);
-            new MenuPic(this, 360, "deathscreen");
-            new MenuButton(this, 850, "buttonrestart", () => {
-                this.game.sound.stopAll();
-                this.game.sound.removeAll();
-                this.scene.restart({level: this.level, deathCount: this.deathCount + 1});
-            });
             this.deathost.play();
         });
     }
@@ -371,37 +385,44 @@ export default class GameScene extends BaseScene {
     levelEnd() {
         this.tweens.add({targets: this.mainost, volume: 0, duration: 1500, onComplete: () => this.peacefulost.play()});
         this.levelCleared = true;
-        const cleared = new MenuPic(this, 120, "levelcleared");
-        cleared.setScale(0.05 / this.cameras.main.zoom);
-        this.tweens.add({
-            targets: cleared,
-            scaleX: 1 / this.cameras.main.zoom,
-            scaleY: 1 / this.cameras.main.zoom,
-            duration: 1500,
-            onComplete: () => {
-                this.tweens.add({
-                    delay: 1500,
-                    targets: cleared,
-                    alpha: 0,
-                    duration: 500,
-                    onComplete: () => {
-                        cleared.destroy();
-                    }
-                });
-            }
-        });
+        this.events.emit('UILevelCleared');
         this.time.delayedCall(2000, () => {
-            this.endArrow.activate();
-            this.currentTarget = this.endArrow;
+            if (this.interactable)
+                this.activateInteractable();
+            else
+                this.activateEndArrow();
+        });
+    }
+
+    activateInteractable() {
+        this.interactable.activate();
+        this.currentTarget = this.interactable;
+    }
+
+    activateEndArrow() {
+        this.endArrow.activate();
+        this.currentTarget = this.endArrow;
+    }
+
+    restartScene(next = false) {
+        if (this.ending) return;
+        this.ending = true;
+        this.addVolumeFade(true);
+        this.addPixelEffect(false);
+        this.time.delayedCall(520, () => {
+            this.game.sound.stopAll();
+            this.game.sound.removeAll();
+            console.log(this.deathCount);
+            if (next) {
+                if (this.level === 3) this.scene.restart({level: 1, deathCount: 0})
+                else this.scene.restart({level: this.level + 1, deathCount: this.deathCount});
+            } else
+                this.scene.restart({level: this.level, deathCount: this.deathCount + 1});
         });
     }
 
     nextLevel() {
-        this.game.sound.stopAll();
-        this.game.sound.removeAll();
-        console.log(this.deathCount);
-        if (this.level === 2) this.scene.restart({level: 1, deathCount: 0})
-        else this.scene.restart({level: this.level + 1, deathCount: this.deathCount});
+        this.restartScene(true);
     }
 
     angleDiff(a, b) {
@@ -432,10 +453,6 @@ export default class GameScene extends BaseScene {
                 this.cameras.main.displayHeight + 80 / this.cameras.main.zoom
             );
         }
-        if (this.player.inventoryWeapon && !this.player.inventoryWeapon.isMelee)
-            this.ammoInfo.setText(`${this.player.inventoryWeapon.ammo}/${this.player.inventoryWeapon.maxAmmo}`);
-        else
-            this.ammoInfo.setText("");
         if (this.player.active && !this.levelCleared && this.enemies.countActive() === 0 && this.deadBodies.getMatching("isAlive", true).length === 0)
             this.levelEnd();
     }
@@ -450,9 +467,9 @@ export default class GameScene extends BaseScene {
 ТЕЛО 12
 ОРУЖИЕ 13
 ВРАГИ/ИГРОК 15
+ПУЛИ 16
 СТРЕЛКИ 19
 СТЕКЛО 20
-ПУЛИ 25
 СТЕНЫ 30
 ДВЕРИ 30
 ТЕКСТ 99

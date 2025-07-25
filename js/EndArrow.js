@@ -26,7 +26,7 @@ export default class EndArrow extends Phaser.Physics.Arcade.Sprite {
             yoyo: true
         });
         this.scene.physics.add.overlap(this, this.scene.player, () => {
-            if (this.scene.levelCleared) this.scene.nextLevel();
+            if (this.scene.levelCleared && this.arrow.visible) this.scene.nextLevel();
         });
     }
 

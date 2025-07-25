@@ -4,6 +4,7 @@ import PatrolCircle from "./PatrolCircle.js";
 export default class Enemy extends Entity {
     constructor(scene, x, y, weapon, angle, pattern) {
         super(scene, x, y, 'necoarc', 'necoarcdead');
+        this.setCircle(19, 51, 51);
         this.inventoryWeapon = weapon;
         this.seePlayer = false;
         this.seeTime = 0;
@@ -33,6 +34,10 @@ export default class Enemy extends Entity {
             return this.scene.checkWalls(this, this.scene.player);
         } else
             return false;
+    }
+
+    rotateToPlayer() {
+        this.rotation = Phaser.Math.Angle.BetweenPoints(this, this.scene.player);
     }
 
     moveToPlayer() {
@@ -92,12 +97,15 @@ export default class Enemy extends Entity {
                     x: this.scene.player.x + this.scene.player.body.velocity.x * 0.1,
                     y: this.scene.player.y + this.scene.player.body.velocity.y * 0.1
                 }
-                if (time - this.seeTime > 350)
+                if (time - this.seeTime > 400)
                     this.inventoryWeapon.shoot(this, dir, false);
             } else {
-                if (Phaser.Math.Distance.BetweenPoints(this, this.scene.player) < this.body.radius * this.scale + this.inventoryWeapon.atackRadius * 3 * 0.9)
+                if (Phaser.Math.Distance.BetweenPoints(this, this.scene.player) < this.body.radius * this.scale + this.inventoryWeapon.atackRadius * 3 * 0.7) {
                     this.inventoryWeapon.shoot(this, null, false);
-                this.moveToPlayer();
+                    this.setVelocity(0, 0);
+                    this.rotateToPlayer();
+                } else
+                    this.moveToPlayer();
             }
         } else if (this.agro) {
             if (this.pattern !== "static")

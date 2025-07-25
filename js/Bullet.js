@@ -6,7 +6,7 @@ export class Bullet extends Phaser.Physics.Arcade.Sprite {
         this.setOrigin(0.5);
         this.setCircle(2, 7, 7);
         this.setScale(3);
-        this.depth = 25;
+        this.depth = 16;
         this.defaultSpeed = 4500;
         this.startTime = scene.time.now;
         this.scene.physics.add.collider(this, this.scene.walls, () => {
@@ -20,9 +20,11 @@ export class Bullet extends Phaser.Physics.Arcade.Sprite {
         this.startTime = this.scene.time.now;
         const speed = Phaser.Math.Between(this.defaultSpeed * 0.9, this.defaultSpeed * 1.1);
         if (!grenade) {
-            const rotated = this.scene.rotatePoint(offset, 0, shooter.rotation);
-            const startX = shooter.x + rotated.x;
-            const startY = shooter.y + rotated.y;
+            //const rotated = this.scene.rotatePoint(offset, 0, shooter.rotation);
+            //const startX = shooter.x + rotated.x;
+            //const startY = shooter.y + rotated.y;
+            const startX = shooter.x;
+            const startY = shooter.y;
             this.enableBody(true, startX, startY, true, true);
             direction = Phaser.Math.Angle.BetweenPoints(shooter, target) + deviation;
         } else {
@@ -32,10 +34,18 @@ export class Bullet extends Phaser.Physics.Arcade.Sprite {
         this.rotation = direction;
         const vec = this.scene.physics.velocityFromRotation(direction, speed);
         this.setVelocity(vec.x, vec.y);
+
+        this.visible = false;
+        this.shooter = shooter;
+        this.offset = offset;
     }
 
     update(time) {
         if (time - this.startTime >= 3000) this.disableBody(true, true);
+        if (this.active && this.shooter && this.offset) {
+            const dist = Phaser.Math.Distance.BetweenPoints(this, this.shooter);
+            if (dist >= this.offset) this.visible = true;
+        }
     }
 }
 

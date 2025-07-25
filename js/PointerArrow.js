@@ -25,6 +25,6 @@ export default class PointerArrow extends Phaser.Physics.Arcade.Sprite {
         this.x = this.scene.player.x + rotated.x;
         this.y = this.scene.player.y + rotated.y;
         this.rotation = dir;
-        this.setVisible(Phaser.Math.Distance.BetweenPoints(this, this.scene.currentTarget) > 600);
+        this.setVisible(Phaser.Math.Distance.BetweenPoints(this, this.scene.currentTarget) > 300);
     }
 }

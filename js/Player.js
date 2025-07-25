@@ -21,9 +21,13 @@ export default class Player extends Entity {
         this.scene.physics.add.collider(this, this.scene.furniture);
         this.scene.physics.add.collider(this, this.scene.enemyBullets, (a, bulletHit) => this.bulletCallback(bulletHit));
         this.scene.physics.add.overlap(this, this.scene.enemyHitboxes, (a, meleeHit) => this.meleeCallback(meleeHit));
+
+        this.prev_x = this.x;
+        this.prev_y = this.y;
     }
 
     fatality() {
+        if (this.fatalityAnim || !this.active) return;
         let nearestBody = null;
         this.scene.deadBodies.children.each(body => {
             if (!body.isAlive) return;
@@ -75,7 +79,9 @@ export default class Player extends Entity {
     }
 
     update() {
-        if (this.fatalityAnim) return;
+        this.prev_x = this.x;
+        this.prev_y = this.y;
+        if (this.fatalityAnim || !this.active) return;
         super.update();
         let playerVelocity = new Phaser.Math.Vector2();
         if (this.inputKeys.left.isDown) {

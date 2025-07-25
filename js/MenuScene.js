@@ -19,7 +19,7 @@ export default class MenuScene extends BaseScene {
     }
 
     create() {
-        super.create();
+        this.drawBackground();
         this.sound.add("menuost", {loop: true, volume: 1}).play();
         this.anims.create({
             key: "animMasunyaSpin",

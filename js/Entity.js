@@ -9,7 +9,7 @@ export default class Entity extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this);
         this.setOrigin(0.5);
         this.setScale(3);
-        this.setCircle(19, 51, 51);
+        this.setCircle(17, 53, 53);
         this.depth = 15;
         this.body.pushable = false;
         this.startSprite = sprite;

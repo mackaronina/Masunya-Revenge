@@ -1,4 +1,8 @@
 export default class BaseScene extends Phaser.Scene {
+    constructor(params) {
+        super(params);
+    }
+
     preload() {
         let progressBox = this.add.graphics();
         let progressBar = this.add.graphics();
@@ -21,6 +25,9 @@ export default class BaseScene extends Phaser.Scene {
     }
 
     create() {
+    }
+
+    drawBackground() {
         const background = this.add.graphics();
         background.depth = 0;
         background.fillGradientStyle(0x8e44ad, 0x8e44ad, 0x2980b9, 0x2980b9);

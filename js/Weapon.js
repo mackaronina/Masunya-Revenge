@@ -23,7 +23,7 @@ export class WeaponDrop extends Phaser.Physics.Arcade.Sprite {
 }
 
 class Weapon {
-    constructor(scene, maxAmmo, dropSprite, handsSprite, isSemi, isAuto, isMelee, kd, offset, soundName, isSilent = false, isEmpty = false, anims = null, atackRadius = 0) {
+    constructor(scene, maxAmmo, dropSprite, handsSprite, isSemi, isAuto, isMelee, kd, offset, soundName, deviation, isSilent = false, isEmpty = false, anims = null, atackRadius = 0) {
         this.scene = scene;
         this.maxAmmo = maxAmmo;
         this.dropSprite = dropSprite;
@@ -39,6 +39,7 @@ class Weapon {
         this.atackRadius = atackRadius;
         this.offset = offset;
         this.isSilent = isSilent;
+        this.deviation = deviation;
         this.sound = this.scene.sound.add(soundName, {loop: false, volume: 0.6});
         this.noammo = this.scene.sound.add('noammosound', {loop: false, volume: 0.7});
     }
@@ -68,10 +69,10 @@ class Weapon {
             endKd *= 1.5;
         if ((time - this.lastFired) < endKd) return false;
 
-        if (!isPlayer && Phaser.Math.Distance.BetweenPoints(shooter, this.scene.player) < this.offset)
-            this.offset = Phaser.Math.Distance.BetweenPoints(shooter, this.scene.player) - 20;
+        //if (!isPlayer && Phaser.Math.Distance.BetweenPoints(shooter, this.scene.player) < this.offset)
+        //this.offset = Phaser.Math.Distance.BetweenPoints(shooter, this.scene.player) - 20;
 
-        if (!this.checkNearWalls(shooter, this.offset + 10)) return false;
+        //if (!this.checkNearWalls(shooter, this.offset + 10)) return false;
 
         this.lastFired = time;
         if (!this.isMelee && isPlayer) this.ammo -= 1;
@@ -81,7 +82,19 @@ class Weapon {
         return true;
     }
 
+    getDeviation() {
+        return Phaser.Math.FloatBetween(-this.deviation, this.deviation);
+    }
+
     shoot(shooter, target, isPlayer, playEmptySound = true) {
+        if (!this.checkShoot(shooter, isPlayer, playEmptySound)) return;
+        let bullet;
+        if (isPlayer)
+            bullet = this.scene.playerBullets.get();
+        else
+            bullet = this.scene.enemyBullets.get();
+        bullet.fire(shooter, target, this.getDeviation(), this.offset);
+        if (isPlayer) this.scene.cameras.main.shake(100 / this.scene.cameras.main.zoom, 0.01 / this.scene.cameras.main.zoom, true);
     }
 }
 
@@ -91,19 +104,9 @@ export class WeaponKalash extends Weapon {
             Player: 5,
             Enemy: 5
         }
-        super(scene, 30, 1, handsSprite, false, true, false, 70, 195, 'kalashsound');
-    }
-
-    shoot(shooter, target, isPlayer, playEmptySound = true) {
-        if (!super.checkShoot(shooter, isPlayer, playEmptySound)) return;
-        let bullet;
-        if (isPlayer)
-            bullet = this.scene.playerBullets.get();
-        else
-            bullet = this.scene.enemyBullets.get();
-        const deviation = Phaser.Math.FloatBetween(-0.05, 0.05);
-        bullet.fire(shooter, target, deviation, this.offset);
-        if (isPlayer) this.scene.cameras.main.shake(100 / this.scene.cameras.main.zoom, 0.01 / this.scene.cameras.main.zoom, true);
+        //old offset 140
+        //old deviation 0.05
+        super(scene, 20, 1, handsSprite, false, true, false, 70, 180, 'kalashsound', 0.045);
     }
 }
 
@@ -113,19 +116,9 @@ export class WeaponMakarov extends Weapon {
             Player: 1,
             Enemy: 1
         }
-        super(scene, 8, 2, handsSprite, true, false, false, 150, 90, 'makarovsound');
-    }
-
-    shoot(shooter, target, isPlayer, playEmptySound = true) {
-        if (!super.checkShoot(shooter, isPlayer, playEmptySound)) return;
-        let bullet;
-        if (isPlayer)
-            bullet = this.scene.playerBullets.get();
-        else
-            bullet = this.scene.enemyBullets.get();
-        const deviation = Phaser.Math.FloatBetween(-0.03, 0.03);
-        bullet.fire(shooter, target, deviation, this.offset);
-        if (isPlayer) this.scene.cameras.main.shake(100 / this.scene.cameras.main.zoom, 0.01 / this.scene.cameras.main.zoom, true);
+        //old offset 90
+        //old deviation 0.03
+        super(scene, 8, 2, handsSprite, true, false, false, 150, 114, 'makarovsound', 0.027);
     }
 }
 
@@ -135,7 +128,9 @@ export class WeaponDrobash extends Weapon {
             Player: 4,
             Enemy: 4
         }
-        super(scene, 4, 3, handsSprite, true, false, false, 400, 140, 'drobashsound');
+        //old offset 140
+        //old deviation 0.13
+        super(scene, 4, 3, handsSprite, true, false, false, 400, 180, 'drobashsound', 0.112);
     }
 
     shoot(shooter, target, isPlayer, playEmptySound = true) {
@@ -146,8 +141,7 @@ export class WeaponDrobash extends Weapon {
                 bullet = this.scene.playerBullets.get();
             else
                 bullet = this.scene.enemyBullets.get();
-            const deviation = Phaser.Math.FloatBetween(-0.13, 0.13);
-            bullet.fire(shooter, target, deviation, this.offset);
+            bullet.fire(shooter, target, this.getDeviation(), this.offset);
         }
         if (isPlayer) this.scene.cameras.main.shake(200 / this.scene.cameras.main.zoom, 0.02 / this.scene.cameras.main.zoom, true);
     }
@@ -159,14 +153,15 @@ export class WeaponGranata extends Weapon {
             Player: 3,
             Enemy: 3
         }
-        super(scene, 1, 0, handsSprite, true, false, false, 2000, 90, 'zamahsound', true);
+        //old offset 90
+        //old deviation 0.03
+        super(scene, 1, 0, handsSprite, true, false, false, 2000, 90, 'zamahsound', 0.027, true);
     }
 
     shoot(shooter, target, isPlayer) {
         if (!super.checkShoot(shooter, isPlayer)) return;
         const grenade = this.scene.grenades.get();
-        const deviation = Phaser.Math.FloatBetween(-0.03, 0.03);
-        grenade.fire(shooter, target, deviation, isPlayer, this.offset);
+        grenade.fire(shooter, target, this.getDeviation(), isPlayer, this.offset);
         if (this.ammo <= 0 && isPlayer) this.scene.player.inventoryWeapon = new WeaponHands(this.scene);
     }
 }
@@ -181,7 +176,7 @@ export class WeaponKuvalda extends Weapon {
             Player: "animMasunyaKuvalda",
             Enemy: "animNecoarcKuvalda"
         }
-        super(scene, 0, 4, handsSprite, true, false, true, 300, 0, 'zamahsound', true, false, anims, 62);
+        super(scene, 0, 4, handsSprite, true, false, true, 300, 0, 'zamahsound', 0, true, false, anims, 62);
     }
 
     shoot(shooter, target, isPlayer) {
@@ -208,7 +203,7 @@ export class WeaponHands extends Weapon {
             Enemy: "animNecoarcPunchFirst",
             Chaos: "animChaosPunchFirst"
         }
-        super(scene, 0, -1, handsSprite, true, false, true, 300, 0, 'zamahsound', true, true, anims, 54);
+        super(scene, 0, -1, handsSprite, true, false, true, 300, 0, 'zamahsound', 0, true, true, anims, 54);
         this.flag = false;
     }
 

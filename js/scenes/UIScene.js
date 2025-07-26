@@ -1,6 +1,6 @@
-import MenuPic from "./MenuPic.js";
-import MenuButton from "./MenuButton.js";
-import Cursor from "./Cursor.js";
+import MenuPic from "../interface/MenuPic.js";
+import MenuButton from "../interface/MenuButton.js";
+import Cursor from "../interface/Cursor.js";
 import BaseScene from "./BaseScene.js";
 
 export default class UIScene extends BaseScene {

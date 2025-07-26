@@ -1,5 +1,6 @@
-import GameScene from './GameScene.js'
-import MenuScene from "./MenuScene.js";
+import GameScene from './scenes/GameScene.js'
+import MenuScene from "./scenes/MenuScene.js";
+import UIScene from "./scenes/UIScene.js";
 
 const ratio = Math.max(window.screen.width / window.screen.height, window.screen.height / window.screen.width);
 const DEFAULT_HEIGHT = 1080;
@@ -19,13 +20,19 @@ const config = {
         arcade: {
             gravity: {y: 0},
             fps: 300,
-            debug: false,
+            debug: true,
             debugBodyColor: 0x000000
         }
     },
     pixelArt: true,
-    disableContextMenu: false,
-    scene: [MenuScene, GameScene]
+    disableContextMenu: true,
+    state: {
+        init: () => {
+            this.game.forceSingleUpdate = false;
+            this.time.desiredFps = 1;
+        }
+    },
+    scene: [MenuScene, GameScene, UIScene]
 };
 
 const game = new Phaser.Game(config);
@@ -36,7 +43,4 @@ game.canvas.addEventListener('mousedown', () => {
 });
 game.canvas.addEventListener('mousedown', () => {
     game.input.mouse.requestPointerLock();
-});
-game.canvas.addEventListener('mousedown', () => {
-    navigator.keyboard.lock();
 });

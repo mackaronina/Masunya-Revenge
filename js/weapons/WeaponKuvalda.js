@@ -1,5 +1,5 @@
-import MeleeHitbox from "../projectiles/MeleeHitbox.js";
-import Weapon from "./Weapon.js";
+import MeleeHitbox from '../projectiles/MeleeHitbox.js';
+import Weapon from './Weapon.js';
 
 
 export default class WeaponKuvalda extends Weapon {
@@ -9,8 +9,8 @@ export default class WeaponKuvalda extends Weapon {
             Enemy: 2
         }
         const anims = {
-            Player: "animMasunyaKuvalda",
-            Enemy: "animNecoarcKuvalda"
+            Player: 'animMasunyaKuvalda',
+            Enemy: 'animNecoarcKuvalda'
         }
         super(scene, 0, 4, handsSprite, true, false, true, 300, 0, 'zamahsound', 0, true, false, anims, 62);
     }

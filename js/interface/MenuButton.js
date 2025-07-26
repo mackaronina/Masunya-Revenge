@@ -1,4 +1,4 @@
-import MenuPic from "./MenuPic.js";
+import MenuPic from './MenuPic.js';
 
 export default class MenuButton extends MenuPic {
     constructor(scene, y, sprite, onclick, frame = 0) {

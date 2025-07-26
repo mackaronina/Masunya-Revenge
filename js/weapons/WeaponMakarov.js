@@ -1,4 +1,4 @@
-import Weapon from "./Weapon.js";
+import Weapon from './Weapon.js';
 
 export default class WeaponMakarov extends Weapon {
     constructor(scene) {

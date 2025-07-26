@@ -1,7 +1,7 @@
-import MenuPic from "../interface/MenuPic.js";
-import MenuButton from "../interface/MenuButton.js";
-import Cursor from "../interface/Cursor.js";
-import BaseScene from "./BaseScene.js";
+import MenuPic from '../interface/MenuPic.js';
+import MenuButton from '../interface/MenuButton.js';
+import Cursor from '../interface/Cursor.js';
+import BaseScene from './BaseScene.js';
 
 export default class UIScene extends BaseScene {
     constructor() {
@@ -22,12 +22,12 @@ export default class UIScene extends BaseScene {
         this.ammoInfo = this.add.text(
             30,
             this.game.config.height - 120,
-            "",
+            '',
             {
-                fontFamily: "Justice",
+                fontFamily: 'Justice',
                 fontSize: 90,
                 fontStyle: 'normal',
-                color: "#f5f5f5",
+                color: '#f5f5f5',
                 align: 'center'
             }
         );
@@ -42,8 +42,8 @@ export default class UIScene extends BaseScene {
 
     deathScreen() {
         this.cursor = new Cursor(this);
-        const menuPic = new MenuPic(this, 360, "deathscreen");
-        const menuBut = new MenuButton(this, 850, "buttonrestart", () => {
+        const menuPic = new MenuPic(this, 360, 'deathscreen');
+        const menuBut = new MenuButton(this, 850, 'buttonrestart', () => {
             menuPic.destroy();
             menuBut.destroy();
             this.cursor.destroy();
@@ -52,7 +52,7 @@ export default class UIScene extends BaseScene {
     }
 
     showNotepad() {
-        const notepad = new MenuPic(this, 540, "notepad");
+        const notepad = new MenuPic(this, 540, 'notepad');
         const text = `ЗАМЕТКИ
 1. Рассмотреть возможность платить
 зарплату пилком
@@ -67,10 +67,10 @@ export default class UIScene extends BaseScene {
             notepad.y - notepad.displayHeight / 2 + 60,
             text,
             {
-                fontFamily: "Comic Sans MS",
+                fontFamily: 'Comic Sans MS',
                 fontSize: 25,
                 fontStyle: 'normal',
-                color: "#023A75",
+                color: '#023A75',
                 align: 'left'
             }
         )
@@ -87,7 +87,7 @@ export default class UIScene extends BaseScene {
     }
 
     levelCleared() {
-        const cleared = new MenuPic(this, 100, "levelcleared");
+        const cleared = new MenuPic(this, 100, 'levelcleared');
         cleared.setScale(0.05);
         this.tweens.add({
             targets: cleared,
@@ -113,6 +113,6 @@ export default class UIScene extends BaseScene {
         if (this.gameScene.player && this.gameScene.player.inventoryWeapon && !this.gameScene.player.inventoryWeapon.isMelee)
             this.ammoInfo.setText(`${this.gameScene.player.inventoryWeapon.ammo}/${this.gameScene.player.inventoryWeapon.maxAmmo}`);
         else
-            this.ammoInfo.setText("");
+            this.ammoInfo.setText('');
     }
 }

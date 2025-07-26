@@ -1,5 +1,5 @@
-import WeaponHands from "./WeaponHands.js";
-import Weapon from "./Weapon.js";
+import WeaponHands from './WeaponHands.js';
+import Weapon from './Weapon.js';
 
 export default class WeaponGranata extends Weapon {
     constructor(scene) {

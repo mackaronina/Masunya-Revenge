@@ -1,4 +1,4 @@
-import Bullet from "./Bullet.js";
+import Bullet from './Bullet.js';
 
 export default class Grenade extends Bullet {
     constructor(scene) {

@@ -1,4 +1,4 @@
-import WeaponDrop from "./WeaponDrop.js";
+import WeaponDrop from './WeaponDrop.js';
 
 export default class Weapon {
     constructor(scene, maxAmmo, dropSprite, handsSprite, isSemi, isAuto, isMelee, kd, offset, soundName, deviation, isSilent = false, isEmpty = false, anims = null, atackRadius = 0) {

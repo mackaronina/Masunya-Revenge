@@ -1,6 +1,6 @@
-import DeadBody from "./DeadBody.js";
-import BloodParticle from "./BloodParticle.js";
-import WeaponHands from "../weapons/WeaponHands.js";
+import DeadBody from './DeadBody.js';
+import BloodParticle from './BloodParticle.js';
+import WeaponHands from '../weapons/WeaponHands.js';
 
 export default class Entity extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y, sprite, bodySprite) {

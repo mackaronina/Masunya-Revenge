@@ -1,5 +1,5 @@
-import Entity from "./Entity.js";
-import PatrolCircle from "./PatrolCircle.js";
+import Entity from './Entity.js';
+import PatrolCircle from './PatrolCircle.js';
 
 export default class Enemy extends Entity {
     constructor(scene, x, y, weapon, angle, pattern) {
@@ -16,10 +16,10 @@ export default class Enemy extends Entity {
         this.lastPath = null;
         /*
         PATTERNS:
-        "patrol"
-        "random"
-        "stand"
-        "static"
+        'patrol'
+        'random'
+        'stand'
+        'static'
         */
         this.scene.physics.add.collider(this, this.scene.playerBullets, (a, bulletHit) => this.bulletCallback(bulletHit));
         this.scene.physics.add.overlap(this, this.scene.playerHitboxes, (a, meleeHit) => this.meleeCallback(meleeHit));
@@ -108,12 +108,12 @@ export default class Enemy extends Entity {
                     this.moveToPlayer();
             }
         } else if (this.agro) {
-            if (this.pattern !== "static")
+            if (this.pattern !== 'static')
                 this.moveToPlayer();
             else
                 this.agro = false;
         } else {
-            if (this.pattern === "patrol" || this.pattern === "random") {
+            if (this.pattern === 'patrol' || this.pattern === 'random') {
                 const vec = this.scene.physics.velocityFromRotation(this.dir, this.entitySlowSpeed);
                 this.setVelocity(vec.x, vec.y);
                 this.rotation = this.body.angle;
@@ -129,7 +129,7 @@ export default class Enemy extends Entity {
         } else {
             const body = this.die(0, meleeHit, true);
             this.agro = true;
-            this.pattern = "stand";
+            this.pattern = 'stand';
             this.anims.stop();
             this.scene.time.delayedCall(3000, () => {
                 if (body.isAlive) {

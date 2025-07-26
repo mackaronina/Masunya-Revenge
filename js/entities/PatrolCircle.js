@@ -20,7 +20,7 @@ export default class PatrolCircle extends Phaser.Physics.Arcade.Sprite {
     }
 
     collideCallback() {
-        if (this.owner.pattern === "patrol") {
+        if (this.owner.pattern === 'patrol') {
             if (this.type === 1) {
                 if (this.body.blocked.right)
                     this.owner.dir = Math.PI / 2;
@@ -40,7 +40,7 @@ export default class PatrolCircle extends Phaser.Physics.Arcade.Sprite {
                 else if (this.body.blocked.up)
                     this.owner.dir = Math.PI;
             }
-        } else if (this.owner.pattern === "random") {
+        } else if (this.owner.pattern === 'random') {
             let newdir;
             while (true) {
                 let deviation = Phaser.Math.Angle.Random() / 2;

@@ -1,6 +1,6 @@
-import Enemy from "./Enemy.js";
-import BloodParticle from "./BloodParticle.js";
-import WeaponHands from "../weapons/WeaponHands.js";
+import Enemy from './Enemy.js';
+import BloodParticle from './BloodParticle.js';
+import WeaponHands from '../weapons/WeaponHands.js';
 
 export default class Chaos extends Enemy {
     constructor(scene, x, y, angle, pattern) {

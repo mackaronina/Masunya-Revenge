@@ -1,5 +1,5 @@
-import MeleeHitbox from "../projectiles/MeleeHitbox.js";
-import Weapon from "./Weapon.js";
+import MeleeHitbox from '../projectiles/MeleeHitbox.js';
+import Weapon from './Weapon.js';
 
 
 export default class WeaponHands extends Weapon {
@@ -10,9 +10,9 @@ export default class WeaponHands extends Weapon {
             Chaos: 6
         }
         const anims = {
-            Player: "animMasunyaPunchFirst",
-            Enemy: "animNecoarcPunchFirst",
-            Chaos: "animChaosPunchFirst"
+            Player: 'animMasunyaPunchFirst',
+            Enemy: 'animNecoarcPunchFirst',
+            Chaos: 'animChaosPunchFirst'
         }
         super(scene, 0, -1, handsSprite, true, false, true, 300, 0, 'zamahsound', 0, true, true, anims, 54);
         this.flag = false;
@@ -32,15 +32,15 @@ export default class WeaponHands extends Weapon {
         });
         if (this.flag) {
             this.anims = {
-                Player: "animMasunyaPunchFirst",
-                Enemy: "animNecoarcPunchFirst",
-                Chaos: "animChaosPunchFirst"
+                Player: 'animMasunyaPunchFirst',
+                Enemy: 'animNecoarcPunchFirst',
+                Chaos: 'animChaosPunchFirst'
             }
         } else {
             this.anims = {
-                Player: "animMasunyaPunchSecond",
-                Enemy: "animNecoarcPunchSecond",
-                Chaos: "animChaosPunchSecond"
+                Player: 'animMasunyaPunchSecond',
+                Enemy: 'animNecoarcPunchSecond',
+                Chaos: 'animChaosPunchSecond'
             }
         }
         this.flag = !this.flag;

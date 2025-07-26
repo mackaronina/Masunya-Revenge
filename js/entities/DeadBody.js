@@ -1,4 +1,4 @@
-import BloodParticle from "./BloodParticle.js";
+import BloodParticle from './BloodParticle.js';
 
 export default class DeadBody extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y, sprite, frame, isAlive) {

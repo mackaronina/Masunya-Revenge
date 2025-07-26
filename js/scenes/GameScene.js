@@ -1,23 +1,23 @@
 import Reticle from '../interface/Reticle.js';
 import Player from '../entities/Player.js';
-import Chaos from "../entities/Chaos.js";
-import Enemy from "../entities/Enemy.js";
+import Chaos from '../entities/Chaos.js';
+import Enemy from '../entities/Enemy.js';
 import Bullet from '../projectiles/Bullet.js'
 import Grenade from '../projectiles/Grenade.js'
 import MeleeHitbox from '../projectiles/MeleeHitbox.js'
-import DeadBody from "../entities/DeadBody.js";
-import Door from "../interactable/Door.js";
-import EndArrow from "../interactable/EndArrow.js";
-import BaseScene from "./BaseScene.js";
-import PointerArrow from "../interface/PointerArrow.js";
-import TableInteractable from "../interactable/TableInteractable.js";
-import WeaponDrop from "../weapons/WeaponDrop.js";
-import WeaponHands from "../weapons/WeaponHands.js";
-import WeaponKuvalda from "../weapons/WeaponKuvalda.js";
-import WeaponMakarov from "../weapons/WeaponMakarov.js";
-import WeaponKalash from "../weapons/WeaponKalash.js";
-import WeaponDrobash from "../weapons/WeaponDrobash.js";
-import WeaponGranata from "../weapons/WeaponGranata.js";
+import DeadBody from '../entities/DeadBody.js';
+import Door from '../interactable/Door.js';
+import EndArrow from '../interactable/EndArrow.js';
+import BaseScene from './BaseScene.js';
+import PointerArrow from '../interface/PointerArrow.js';
+import TableInteractable from '../interactable/TableInteractable.js';
+import WeaponDrop from '../weapons/WeaponDrop.js';
+import WeaponHands from '../weapons/WeaponHands.js';
+import WeaponKuvalda from '../weapons/WeaponKuvalda.js';
+import WeaponMakarov from '../weapons/WeaponMakarov.js';
+import WeaponKalash from '../weapons/WeaponKalash.js';
+import WeaponDrobash from '../weapons/WeaponDrobash.js';
+import WeaponGranata from '../weapons/WeaponGranata.js';
 
 export default class GameScene extends BaseScene {
     constructor() {
@@ -49,18 +49,18 @@ export default class GameScene extends BaseScene {
         this.load.image('arrow', 'assets/images/arrow.png');
         this.load.image('pointerarrow', 'assets/images/pointerarrow.png');
         this.load.image('tableinteractable', 'assets/images/tableinteractable.png');
-        this.load.audio("deathsound", "assets/audio/deathsound.mp3");
-        this.load.audio("mainost", "assets/audio/mainost.mp3");
-        this.load.audio("peacefulost", "assets/audio/peacefulost.mp3");
-        this.load.audio("noammosound", "assets/audio/noammo.mp3");
-        this.load.audio("makarovsound", "assets/audio/makarov.mp3");
-        this.load.audio("kalashsound", "assets/audio/kalash.mp3");
-        this.load.audio("drobashsound", "assets/audio/drobash.mp3");
-        this.load.audio("explosionsound", "assets/audio/explosion.mp3");
-        this.load.audio("zamahsound", "assets/audio/zamah.mp3");
-        this.load.audio("punchsound", "assets/audio/punch.mp3");
-        this.load.audio("glasssound", "assets/audio/glass.mp3");
-        this.load.audio("fatalitysound", "assets/audio/fatality.mp3");
+        this.load.audio('deathsound', 'assets/audio/deathsound.mp3');
+        this.load.audio('mainost', 'assets/audio/mainost.mp3');
+        this.load.audio('peacefulost', 'assets/audio/peacefulost.mp3');
+        this.load.audio('noammosound', 'assets/audio/noammo.mp3');
+        this.load.audio('makarovsound', 'assets/audio/makarov.mp3');
+        this.load.audio('kalashsound', 'assets/audio/kalash.mp3');
+        this.load.audio('drobashsound', 'assets/audio/drobash.mp3');
+        this.load.audio('explosionsound', 'assets/audio/explosion.mp3');
+        this.load.audio('zamahsound', 'assets/audio/zamah.mp3');
+        this.load.audio('punchsound', 'assets/audio/punch.mp3');
+        this.load.audio('glasssound', 'assets/audio/glass.mp3');
+        this.load.audio('fatalitysound', 'assets/audio/fatality.mp3');
         this.load.tilemapTiledJSON('tilemap1', 'assets/maps/level1.json');
         this.load.tilemapTiledJSON('tilemap2', 'assets/maps/level2.json');
         this.load.tilemapTiledJSON('tilemap3', 'assets/maps/level3.json');
@@ -81,12 +81,12 @@ export default class GameScene extends BaseScene {
         this.drawBackground();
         this.levelCleared = false;
         this.currentTarget = null;
-        this.mainost = this.sound.add("mainost", {loop: true, volume: 0});
-        this.peacefulost = this.sound.add("peacefulost", {loop: true, volume: 1});
-        this.deathost = this.sound.add("deathsound", {loop: true, volume: 1});
+        this.mainost = this.sound.add('mainost', {loop: true, volume: 0});
+        this.peacefulost = this.sound.add('peacefulost', {loop: true, volume: 1});
+        this.deathost = this.sound.add('deathsound', {loop: true, volume: 1});
         this.mainost.play();
         this.tweens.add({targets: this.mainost, volume: 1, duration: 1500});
-        this.glassSound = this.sound.add("glasssound", {loop: false, volume: 0.1});
+        this.glassSound = this.sound.add('glasssound', {loop: false, volume: 0.1});
 
         this.inputKeys = this.input.keyboard.addKeys({
             shft: Phaser.Input.Keyboard.KeyCodes.SHIFT
@@ -136,73 +136,73 @@ export default class GameScene extends BaseScene {
         pathWalls.setScale(3);
         pathWalls.setCollisionByExclusion(-1, true);
 
-        this.navMesh = this.navMeshPlugin.buildMeshFromTilemap("mesh", map, [pathWalls]);
+        this.navMesh = this.navMeshPlugin.buildMeshFromTilemap('mesh', map, [pathWalls]);
         this.graphics = this.add.graphics();
         this.graphics.depth = 100;
 
         this.anims.create({
-            key: "animExplosion",
-            frames: this.anims.generateFrameNumbers("explosion"),
+            key: 'animExplosion',
+            frames: this.anims.generateFrameNumbers('explosion'),
             duration: 200,
             repeat: 0
         });
         this.anims.create({
-            key: "animMasunyaPunchFirst",
-            frames: this.anims.generateFrameNumbers("masunyaanims", {start: 0, end: 2}),
+            key: 'animMasunyaPunchFirst',
+            frames: this.anims.generateFrameNumbers('masunyaanims', {start: 0, end: 2}),
             duration: 200,
             repeat: 0
         });
         this.anims.create({
-            key: "animMasunyaPunchSecond",
-            frames: this.anims.generateFrameNumbers("masunyaanims", {start: 3, end: 5}),
+            key: 'animMasunyaPunchSecond',
+            frames: this.anims.generateFrameNumbers('masunyaanims', {start: 3, end: 5}),
             duration: 200,
             repeat: 0
         });
         this.anims.create({
-            key: "animMasunyaKuvalda",
-            frames: this.anims.generateFrameNumbers("masunyaanims", {start: 6, end: 8}),
+            key: 'animMasunyaKuvalda',
+            frames: this.anims.generateFrameNumbers('masunyaanims', {start: 6, end: 8}),
             duration: 200,
             repeat: 0
         });
         this.anims.create({
-            key: "animNecoarcPunchFirst",
-            frames: this.anims.generateFrameNumbers("necoarcanims", {start: 0, end: 2}),
+            key: 'animNecoarcPunchFirst',
+            frames: this.anims.generateFrameNumbers('necoarcanims', {start: 0, end: 2}),
             duration: 200,
             repeat: 0
         });
         this.anims.create({
-            key: "animNecoarcPunchSecond",
-            frames: this.anims.generateFrameNumbers("necoarcanims", {start: 3, end: 5}),
+            key: 'animNecoarcPunchSecond',
+            frames: this.anims.generateFrameNumbers('necoarcanims', {start: 3, end: 5}),
             duration: 200,
             repeat: 0
         });
         this.anims.create({
-            key: "animNecoarcKuvalda",
-            frames: this.anims.generateFrameNumbers("necoarcanims", {start: 6, end: 8}),
+            key: 'animNecoarcKuvalda',
+            frames: this.anims.generateFrameNumbers('necoarcanims', {start: 6, end: 8}),
             duration: 200,
             repeat: 0
         });
         this.anims.create({
-            key: "animChaosPunchFirst",
-            frames: this.anims.generateFrameNumbers("necoarcanims", {start: 9, end: 11}),
+            key: 'animChaosPunchFirst',
+            frames: this.anims.generateFrameNumbers('necoarcanims', {start: 9, end: 11}),
             duration: 200,
             repeat: 0
         });
         this.anims.create({
-            key: "animChaosPunchSecond",
-            frames: this.anims.generateFrameNumbers("necoarcanims", {start: 12, end: 14}),
+            key: 'animChaosPunchSecond',
+            frames: this.anims.generateFrameNumbers('necoarcanims', {start: 12, end: 14}),
             duration: 200,
             repeat: 0
         });
         this.anims.create({
-            key: "animMasunyaFatality",
-            frames: this.anims.generateFrameNumbers("masunyafatality"),
+            key: 'animMasunyaFatality',
+            frames: this.anims.generateFrameNumbers('masunyafatality'),
             duration: 800,
             repeat: 0
         });
         this.anims.create({
-            key: "animBodyFatality",
-            frames: this.anims.generateFrameNumbers("bodyfatality", {start: 0, end: 13}),
+            key: 'animBodyFatality',
+            frames: this.anims.generateFrameNumbers('bodyfatality', {start: 0, end: 13}),
             duration: 933,
             repeat: 0
         });
@@ -224,43 +224,43 @@ export default class GameScene extends BaseScene {
             const pattern = enemy.properties.find(p => p.name === 'pattern').value;
             enemy.x = enemy.x * 3 + 24;
             enemy.y = enemy.y * 3 - 24;
-            if (weapon === "hands")
+            if (weapon === 'hands')
                 this.enemies.add(new Enemy(this, enemy.x, enemy.y, new WeaponHands(this), angle, pattern));
-            else if (weapon === "kuvalda")
+            else if (weapon === 'kuvalda')
                 this.enemies.add(new Enemy(this, enemy.x, enemy.y, new WeaponKuvalda(this), angle, pattern));
-            else if (weapon === "makarov")
+            else if (weapon === 'makarov')
                 this.enemies.add(new Enemy(this, enemy.x, enemy.y, new WeaponMakarov(this), angle, pattern));
-            else if (weapon === "kalash")
+            else if (weapon === 'kalash')
                 this.enemies.add(new Enemy(this, enemy.x, enemy.y, new WeaponKalash(this), angle, pattern));
-            else if (weapon === "drobash")
+            else if (weapon === 'drobash')
                 this.enemies.add(new Enemy(this, enemy.x, enemy.y, new WeaponDrobash(this), angle, pattern));
-            else if (weapon === "granata")
+            else if (weapon === 'granata')
                 this.enemies.add(new Enemy(this, enemy.x, enemy.y, new WeaponGranata(this), angle, pattern));
-            else if (weapon === "chaos")
+            else if (weapon === 'chaos')
                 this.enemies.add(new Chaos(this, enemy.x, enemy.y, angle, pattern));
         });
         map.getObjectLayer('points').objects.forEach(point => {
             const pointType = point.properties.find(p => p.name === 'pointType').value;
             const center = {x: point.x * 3 + 24, y: point.y * 3 - 24};
             const cornerRight = {x: point.x * 3 + 48, y: point.y * 3};
-            if (pointType === "start") {
+            if (pointType === 'start') {
                 this.player.x = center.x;
                 this.player.y = center.y;
-            } else if (pointType === "end") {
+            } else if (pointType === 'end') {
                 const angle = point.properties.find(p => p.name === 'angle').value;
                 this.endArrow = new EndArrow(this, cornerRight.x, cornerRight.y + 24, angle);
-            } else if (pointType === "controls") {
-                const text = "WASD - Движение\nLMB - Стрельба/удар\nRMB - Поднять/выкинуть\nоружие\nSPACE - Добивание\nSHIFT - Осмотреться"
+            } else if (pointType === 'controls') {
+                const text = 'WASD - Движение\nLMB - Стрельба/удар\nRMB - Поднять/выкинуть\nоружие\nSPACE - Добивание\nSHIFT - Осмотреться'
                 this.add.text(center.x, center.y, text, {
-                    fontFamily: "Comic Sans MS",
+                    fontFamily: 'Comic Sans MS',
                     fontSize: 45,
                     fontStyle: 'normal',
-                    color: "#f5f5f5",
+                    color: '#f5f5f5',
                     align: 'left'
                 }).depth = 99;
-            } else if (pointType === "interactable") {
+            } else if (pointType === 'interactable') {
                 const interactableType = point.properties.find(p => p.name === 'interactableType').value;
-                if (interactableType === "table")
+                if (interactableType === 'table')
                     this.interactable = new TableInteractable(this, cornerRight.x, cornerRight.y);
             }
         });
@@ -453,7 +453,7 @@ export default class GameScene extends BaseScene {
                 this.cameras.main.displayHeight + 80 / this.cameras.main.zoom
             );
         }
-        if (this.player.active && !this.levelCleared && this.enemies.countActive() === 0 && this.deadBodies.getMatching("isAlive", true).length === 0)
+        if (this.player.active && !this.levelCleared && this.enemies.countActive() === 0 && this.deadBodies.getMatching('isAlive', true).length === 0)
             this.levelEnd();
     }
 }

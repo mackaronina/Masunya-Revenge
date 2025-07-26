@@ -1,5 +1,5 @@
-import Entity from "./Entity.js";
-import WeaponHands from "../weapons/WeaponHands.js";
+import Entity from './Entity.js';
+import WeaponHands from '../weapons/WeaponHands.js';
 
 export default class Player extends Entity {
     constructor(scene, x, y) {

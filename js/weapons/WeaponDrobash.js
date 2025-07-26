@@ -1,4 +1,4 @@
-import Weapon from "./Weapon.js";
+import Weapon from './Weapon.js';
 
 export default class WeaponDrobash extends Weapon {
     constructor(scene) {

@@ -1,4 +1,4 @@
-import Interactable from "./Interactable.js";
+import Interactable from './Interactable.js';
 
 export default class TableInteractable extends Interactable {
     constructor(scene, x, y) {

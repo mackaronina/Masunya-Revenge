@@ -2,9 +2,9 @@ import Reticle from '../interface/Reticle.js';
 import Player from '../entities/Player.js';
 import Chaos from '../entities/Chaos.js';
 import Enemy from '../entities/Enemy.js';
-import Bullet from '../projectiles/Bullet.js'
-import Grenade from '../projectiles/Grenade.js'
-import MeleeHitbox from '../projectiles/MeleeHitbox.js'
+import Bullet from '../projectiles/Bullet.js';
+import Grenade from '../projectiles/Grenade.js';
+import MeleeHitbox from '../projectiles/MeleeHitbox.js';
 import DeadBody from '../entities/DeadBody.js';
 import Door from '../interactable/Door.js';
 import EndArrow from '../interactable/EndArrow.js';
@@ -15,9 +15,9 @@ import WeaponDrop from '../weapons/WeaponDrop.js';
 import WeaponHands from '../weapons/WeaponHands.js';
 import WeaponKuvalda from '../weapons/WeaponKuvalda.js';
 import WeaponMakarov from '../weapons/WeaponMakarov.js';
+import WeaponGranata from '../weapons/WeaponGranata.js';
 import WeaponKalash from '../weapons/WeaponKalash.js';
 import WeaponDrobash from '../weapons/WeaponDrobash.js';
-import WeaponGranata from '../weapons/WeaponGranata.js';
 
 export default class GameScene extends BaseScene {
     constructor() {
@@ -72,7 +72,7 @@ export default class GameScene extends BaseScene {
     }
 
     create(data) {
-        this.level = data.level || 3;
+        this.level = data.level || 2;
         this.deathCount = data.deathCount || 0;
         this.ending = false;
         this.interactable = null;
@@ -412,7 +412,6 @@ export default class GameScene extends BaseScene {
         this.time.delayedCall(520, () => {
             this.game.sound.stopAll();
             this.game.sound.removeAll();
-            console.log(this.deathCount);
             if (next) {
                 if (this.level === 3) this.scene.restart({level: 1, deathCount: 0})
                 else this.scene.restart({level: this.level + 1, deathCount: this.deathCount});

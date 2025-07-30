@@ -1,4 +1,3 @@
-import MeleeHitbox from '../projectiles/MeleeHitbox.js';
 import Weapon from './Weapon.js';
 
 
@@ -14,35 +13,36 @@ export default class WeaponHands extends Weapon {
             Enemy: 'animNecoarcPunchFirst',
             Chaos: 'animChaosPunchFirst'
         }
-        super(scene, 0, -1, handsSprite, true, false, true, 300, 0, 'zamahsound', 0, true, true, anims, 54);
-        this.flag = false;
+        super({
+            scene,
+            handsSprite,
+            isMelee: true,
+            cooldown: 300,
+            soundName: 'zamahsound',
+            isSilent: true,
+            anims,
+            atackRadius: 54,
+            isLethal: false,
+        });
+        this.animsFlag = false;
     }
 
     drop(x, y) {
     }
 
-    shoot(shooter, target, isPlayer) {
-        if (!super.checkShoot(shooter, isPlayer)) return;
-        this.scene.time.delayedCall(100, () => {
-            if (!shooter.active) return;
-            if (isPlayer)
-                this.scene.playerHitboxes.add(new MeleeHitbox(this.scene, shooter, false, this.atackRadius));
-            else
-                this.scene.enemyHitboxes.add(new MeleeHitbox(this.scene, shooter, false, this.atackRadius));
-        });
-        if (this.flag) {
-            this.anims = {
-                Player: 'animMasunyaPunchFirst',
-                Enemy: 'animNecoarcPunchFirst',
-                Chaos: 'animChaosPunchFirst'
-            }
-        } else {
-            this.anims = {
-                Player: 'animMasunyaPunchSecond',
-                Enemy: 'animNecoarcPunchSecond',
-                Chaos: 'animChaosPunchSecond'
-            }
+    shoot(shooter, target, isPlayer, playEmptySound = false) {
+        if (!super.shoot(shooter, target, isPlayer, playEmptySound)) return false;
+        if (this.animsFlag) this.anims = {
+            Player: 'animMasunyaPunchFirst',
+            Enemy: 'animNecoarcPunchFirst',
+            Chaos: 'animChaosPunchFirst'
         }
-        this.flag = !this.flag;
+        else this.anims = {
+            Player: 'animMasunyaPunchSecond',
+            Enemy: 'animNecoarcPunchSecond',
+            Chaos: 'animChaosPunchSecond'
+        }
+        this.animsFlag = !this.animsFlag;
+        return true;
     }
 }

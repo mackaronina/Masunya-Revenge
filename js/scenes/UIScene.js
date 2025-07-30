@@ -110,7 +110,7 @@ export default class UIScene extends BaseScene {
 
     update(time, delta) {
         super.update(time, delta);
-        if (this.gameScene.player && this.gameScene.player.inventoryWeapon && !this.gameScene.player.inventoryWeapon.isMelee)
+        if (this.gameScene.player && !this.gameScene.player.inventoryWeapon.isMelee)
             this.ammoInfo.setText(`${this.gameScene.player.inventoryWeapon.ammo}/${this.gameScene.player.inventoryWeapon.maxAmmo}`);
         else
             this.ammoInfo.setText('');

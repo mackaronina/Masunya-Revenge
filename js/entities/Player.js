@@ -59,9 +59,9 @@ export default class Player extends Entity {
     checkPointer(pointer) {
         if (!this.active || this.fatalityAnim) return;
         if (pointer.leftButtonDown()) {
-            this.inventoryWeapon.shoot(this, this.scene.cursor, true);
+            this.inventoryWeapon.shoot(this, this.scene.cursor, true, true);
         } else if (pointer.rightButtonDown()) {
-            if (this.inventoryWeapon.isEmpty) {
+            if (this.inventoryWeapon instanceof WeaponHands) {
                 let nearestWeapon = null;
                 this.scene.droppedWeapons.children.each(drop => {
                     if (Phaser.Math.Distance.BetweenPoints(this, drop) < 162)
@@ -101,7 +101,7 @@ export default class Player extends Entity {
 
         const pointer = this.scene.input.activePointer;
         if (pointer.leftButtonDown() && this.inventoryWeapon.isAuto) {
-            this.inventoryWeapon.shoot(this, this.scene.cursor, true, false);
+            this.inventoryWeapon.shoot(this, this.scene.cursor, true);
         }
         const rotated = this.scene.rotatePoint(210, 0, this.rotation);
         const pointX = this.x + rotated.x;
@@ -112,8 +112,8 @@ export default class Player extends Entity {
     }
 
     die(frame, attack, isAlive = false) {
-        super.die(frame, attack, isAlive);
         this.scene.deathScreen();
+        return super.die(frame, attack, isAlive);
     }
 
     meleeCallback(meleeHit) {

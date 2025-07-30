@@ -6,8 +6,15 @@ export default class WeaponMakarov extends Weapon {
             Player: 1,
             Enemy: 1
         }
-        //old offset 90
-        //old deviation 0.03
-        super(scene, 8, 2, handsSprite, true, false, false, 150, 114, 'makarovsound', 0.027);
+        super({
+            scene,
+            maxAmmo: 8,
+            dropSprite: 2,
+            handsSprite,
+            cooldown: 150,
+            offset: 114,
+            soundName: 'makarovsound',
+            deviation: 0.027
+        });
     }
 }

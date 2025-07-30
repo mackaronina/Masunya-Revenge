@@ -13,7 +13,6 @@ export default class Enemy extends Entity {
         this.angle = angle;
         this.pattern = pattern;
         this.patrolCircle = new PatrolCircle(this);
-        this.lastPath = null;
         /*
         PATTERNS:
         'patrol'
@@ -42,26 +41,25 @@ export default class Enemy extends Entity {
 
     moveToPlayer() {
         if (this.patrolCircle.active) this.patrolCircle.destroy();
-        let path = this.scene.navMesh.findPath({
+        const path = this.scene.navMesh.findPath({
             x: Math.round(this.x / 3),
             y: Math.round(this.y / 3)
         }, {
             x: Math.round(this.scene.player.x / 3),
             y: Math.round(this.scene.player.y / 3)
         });
-        let angle;
-        if (!path) {
-            angle = Phaser.Math.Angle.BetweenPoints(this, this.scene.player);
-        } else {
-            angle = Phaser.Math.Angle.BetweenPoints(this, {
-                x: path[1].x * 3,
-                y: path[1].y * 3,
-            });
-        }
+        const angle = path ? Phaser.Math.Angle.BetweenPoints(this, {
+            x: path[1].x * 3,
+            y: path[1].y * 3,
+        }) : Phaser.Math.Angle.BetweenPoints(this, this.scene.player);
         const vec = this.scene.physics.velocityFromRotation(angle, this.entitySpeed);
         this.setVelocity(vec.x, vec.y);
         this.rotation = angle;
-        /*
+        this.drawPath(path);
+    }
+
+    drawPath(path) {
+        if (!path) return
         const graphics = this.scene.graphics;
         graphics.clear();
         graphics.lineStyle(2, 0xff0000, 1);
@@ -71,7 +69,6 @@ export default class Enemy extends Entity {
             graphics.lineTo(path[idx].x * 3, path[idx].y * 3);
         }
         graphics.strokePath();
-         */
     }
 
     update(time) {
@@ -97,7 +94,7 @@ export default class Enemy extends Entity {
                     x: this.scene.player.x + this.scene.player.body.velocity.x * 0.1,
                     y: this.scene.player.y + this.scene.player.body.velocity.y * 0.1
                 }
-                if (time - this.seeTime > 400)
+                if (time - this.seeTime > this.inventoryWeapon.reactionTime)
                     this.inventoryWeapon.shoot(this, dir, false);
             } else {
                 if (Phaser.Math.Distance.BetweenPoints(this, this.scene.player) < this.body.radius * this.scale + this.inventoryWeapon.atackRadius * 3 * 0.7) {

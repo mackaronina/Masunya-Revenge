@@ -6,21 +6,25 @@ export default class WeaponDrobash extends Weapon {
             Player: 4,
             Enemy: 4
         }
-        //old offset 140
-        //old deviation 0.13
-        super(scene, 4, 3, handsSprite, true, false, false, 400, 180, 'drobashsound', 0.112);
+        super({
+            scene,
+            maxAmmo: 4,
+            dropSprite: 3,
+            handsSprite,
+            cooldown: 400,
+            offset: 180,
+            soundName: 'drobashsound',
+            deviation: 0.112,
+            shakeDuration: 200,
+            shakeIntensity: 0.02
+        });
+        this.countBullets = 6;
     }
 
-    shoot(shooter, target, isPlayer, playEmptySound = true) {
-        if (!super.checkShoot(shooter, isPlayer, playEmptySound)) return;
-        for (let i = 0; i < 6; i++) {
-            let bullet;
-            if (isPlayer)
-                bullet = this.scene.playerBullets.get();
-            else
-                bullet = this.scene.enemyBullets.get();
+    createBullets(shooter, target, isPlayer) {
+        for (let i = 0; i < this.countBullets; i++) {
+            const bullet = this.getBullet(isPlayer);
             bullet.fire(shooter, target, this.getDeviation(), this.offset);
         }
-        if (isPlayer) this.scene.cameras.main.shake(200 / this.scene.cameras.main.zoom, 0.02 / this.scene.cameras.main.zoom, true);
     }
 }

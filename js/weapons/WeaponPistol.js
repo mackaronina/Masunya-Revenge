@@ -1,6 +1,6 @@
 import Weapon from './Weapon.js';
 
-export default class WeaponMakarov extends Weapon {
+export default class WeaponPistol extends Weapon {
     constructor(scene) {
         const handsSprite = {
             Player: 1,
@@ -13,7 +13,7 @@ export default class WeaponMakarov extends Weapon {
             handsSprite,
             cooldown: 150,
             offset: 114,
-            soundName: 'makarovsound',
+            soundName: 'pistol_sound',
             deviation: 0.027
         });
     }

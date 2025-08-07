@@ -5,14 +5,14 @@ import BaseScene from './BaseScene.js';
 
 export default class UIScene extends BaseScene {
     constructor() {
-        super({key: 'UIScene', active: true});
+        super({key: 'ui_cene', active: true});
     }
 
     preload() {
         super.preload();
-        this.load.image('levelcleared', 'assets/images/levelcleared.png');
-        this.load.image('deathscreen', 'assets/images/deathscreen.png');
-        this.load.image('buttonrestart', 'assets/images/buttonrestart.png');
+        this.load.image('level_cleared', 'assets/images/level_cleared.png');
+        this.load.image('death_screen', 'assets/images/death_screen.png');
+        this.load.image('button_restart', 'assets/images/button_restart.png');
         this.load.image('cursor', 'assets/images/cursor.png');
         this.load.image('notepad', 'assets/images/notepad.png');
     }
@@ -34,16 +34,16 @@ export default class UIScene extends BaseScene {
         this.ammoInfo.setScrollFactor(0);
         this.ammoInfo.setPadding(12, 12, 12, 12);
         this.ammoInfo.depth = 99;
-        this.gameScene = this.scene.get('GameScene');
-        this.gameScene.events.on('UILevelCleared', () => this.levelCleared());
-        this.gameScene.events.on('UIDeathScreen', () => this.deathScreen());
-        this.gameScene.events.on('UIShowNotepad', () => this.showNotepad());
+        this.gameScene = this.scene.get('game_scene');
+        this.gameScene.events.on('ui_level_cleared', () => this.levelCleared());
+        this.gameScene.events.on('ui_death_screen', () => this.deathScreen());
+        this.gameScene.events.on('ui_show_notepad', () => this.showNotepad());
     }
 
     deathScreen() {
         this.cursor = new Cursor(this);
-        const menuPic = new MenuPic(this, 360, 'deathscreen');
-        const menuBut = new MenuButton(this, 850, 'buttonrestart', () => {
+        const menuPic = new MenuPic(this, 360, 'death_screen');
+        const menuBut = new MenuButton(this, 850, 'button_restart', () => {
             menuPic.destroy();
             menuBut.destroy();
             this.cursor.destroy();
@@ -87,7 +87,7 @@ export default class UIScene extends BaseScene {
     }
 
     levelCleared() {
-        const cleared = new MenuPic(this, 100, 'levelcleared');
+        const cleared = new MenuPic(this, 100, 'level_cleared');
         cleared.setScale(0.05);
         this.tweens.add({
             targets: cleared,

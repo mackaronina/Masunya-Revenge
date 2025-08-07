@@ -1,15 +1,15 @@
 import Weapon from './Weapon.js';
 
 
-export default class WeaponKuvalda extends Weapon {
+export default class WeaponHammer extends Weapon {
     constructor(scene) {
         const handsSprite = {
             Player: 2,
             Enemy: 2
         }
         const anims = {
-            Player: 'animMasunyaKuvalda',
-            Enemy: 'animNecoarcKuvalda'
+            Player: 'anim_masunya_hammer',
+            Enemy: 'anim_necoarc_hammer'
         }
         super({
             scene,
@@ -17,7 +17,7 @@ export default class WeaponKuvalda extends Weapon {
             handsSprite,
             isMelee: true,
             cooldown: 300,
-            soundName: 'zamahsound',
+            soundName: 'swing_sound',
             isSilent: true,
             anims,
             atackRadius: 62

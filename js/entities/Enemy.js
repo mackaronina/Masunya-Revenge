@@ -3,25 +3,24 @@ import PatrolCircle from './PatrolCircle.js';
 
 export default class Enemy extends Entity {
     constructor(scene, x, y, weapon, angle, pattern) {
-        super(scene, x, y, 'necoarc', 'necoarcdead');
-        this.setCircle(19, 51, 51);
+        super(scene, x, y, 'necoarc', 'necoarc_dead');
         this.inventoryWeapon = weapon;
+        this.angle = angle;
+        this.pattern = pattern;
         this.seePlayer = false;
         this.seeTime = 0;
         this.agro = false;
         this.dir = Phaser.Math.DegToRad(angle);
-        this.angle = angle;
-        this.pattern = pattern;
         this.patrolCircle = new PatrolCircle(this);
         /*
         PATTERNS:
         'patrol'
         'random'
         'stand'
-        'static'
         */
-        this.scene.physics.add.collider(this, this.scene.playerBullets, (a, bulletHit) => this.bulletCallback(bulletHit));
-        this.scene.physics.add.overlap(this, this.scene.playerHitboxes, (a, meleeHit) => this.meleeCallback(meleeHit));
+        this.setCircle(19, 51, 51);
+        this.scene.physics.add.collider(this, this.scene.playerBullets, (_, bulletHit) => this.bulletCallback(bulletHit));
+        this.scene.physics.add.overlap(this, this.scene.playerHitboxes, (_, meleeHit) => this.meleeCallback(meleeHit));
         this.scene.physics.add.collider(this, this.scene.player, () => {
             this.agro = true
             this.scene.player.setVelocity(0);
@@ -71,45 +70,30 @@ export default class Enemy extends Entity {
         graphics.strokePath();
     }
 
-    update(time) {
-        super.update();
-        if (!this.scene.player.active) {
+    rangeAtack(time) {
+        this.setVelocity(0, 0);
+        this.rotation = Phaser.Math.Angle.BetweenPoints(this, this.scene.player);
+        const dir = {
+            x: this.scene.player.x + this.scene.player.body.velocity.x * 0.1,
+            y: this.scene.player.y + this.scene.player.body.velocity.y * 0.1
+        }
+        if (time - this.seeTime > this.inventoryWeapon.reactionTime)
+            this.inventoryWeapon.shoot(this, dir, false);
+    }
+
+    meleeAtack() {
+        if (Phaser.Math.Distance.BetweenPoints(this, this.scene.player) < this.body.radius * this.scale + this.inventoryWeapon.atackRadius * 3 * 0.7) {
+            this.inventoryWeapon.shoot(this, null, false);
             this.setVelocity(0, 0);
-            return;
-        }
-        if (this.checkSeePlayer()) {
-            if (!this.seePlayer) {
-                this.seePlayer = true;
-                this.seeTime = time;
-                this.agro = true;
-            }
-        } else {
-            this.seePlayer = false;
-        }
-        if (this.seePlayer) {
-            if (!this.inventoryWeapon.isMelee) {
-                this.setVelocity(0, 0);
-                this.rotation = Phaser.Math.Angle.BetweenPoints(this, this.scene.player);
-                const dir = {
-                    x: this.scene.player.x + this.scene.player.body.velocity.x * 0.1,
-                    y: this.scene.player.y + this.scene.player.body.velocity.y * 0.1
-                }
-                if (time - this.seeTime > this.inventoryWeapon.reactionTime)
-                    this.inventoryWeapon.shoot(this, dir, false);
-            } else {
-                if (Phaser.Math.Distance.BetweenPoints(this, this.scene.player) < this.body.radius * this.scale + this.inventoryWeapon.atackRadius * 3 * 0.7) {
-                    this.inventoryWeapon.shoot(this, null, false);
-                    this.setVelocity(0, 0);
-                    this.rotateToPlayer();
-                } else
-                    this.moveToPlayer();
-            }
-        } else if (this.agro) {
-            if (this.pattern !== 'static')
-                this.moveToPlayer();
-            else
-                this.agro = false;
-        } else {
+            this.rotateToPlayer();
+        } else
+            this.moveToPlayer();
+    }
+
+    moveByPattern() {
+        if (this.agro)
+            this.moveToPlayer();
+        else {
             if (this.pattern === 'patrol' || this.pattern === 'random') {
                 const vec = this.scene.physics.velocityFromRotation(this.dir, this.entitySlowSpeed);
                 this.setVelocity(vec.x, vec.y);
@@ -135,5 +119,28 @@ export default class Enemy extends Entity {
                 }
             });
         }
+    }
+
+    update(time) {
+        super.update();
+        if (!this.scene.player.active) {
+            this.setVelocity(0, 0);
+            return;
+        }
+        if (this.checkSeePlayer()) {
+            if (!this.seePlayer) {
+                this.seePlayer = true;
+                this.seeTime = time;
+                this.agro = true;
+            }
+        } else
+            this.seePlayer = false;
+        if (this.seePlayer) {
+            if (!this.inventoryWeapon.isMelee)
+                this.rangeAtack(time);
+            else
+                this.meleeAtack();
+        } else
+            this.moveByPattern();
     }
 }

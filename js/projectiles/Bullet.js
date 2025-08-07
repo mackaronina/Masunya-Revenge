@@ -16,11 +16,10 @@ export default class Bullet extends Phaser.Physics.Arcade.Sprite {
     }
 
     fire(shooter, target, deviation, offset = 0) {
-        let direction;
         this.startTime = this.scene.time.now;
         const speed = Phaser.Math.Between(this.defaultSpeed * 0.9, this.defaultSpeed * 1.1);
         this.enableBody(true, shooter.x, shooter.y, true, true);
-        direction = Phaser.Math.Angle.BetweenPoints(shooter, target) + deviation;
+        const direction = Phaser.Math.Angle.BetweenPoints(shooter, target) + deviation;
         this.rotation = direction;
         const vec = this.scene.physics.velocityFromRotation(direction, speed);
         this.setVelocity(vec.x, vec.y);

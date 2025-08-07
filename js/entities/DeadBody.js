@@ -58,7 +58,7 @@ export default class DeadBody extends Phaser.Physics.Arcade.Sprite {
 
     fatality() {
         this.isAlive = false;
-        this.anims.play('animBodyFatality', true);
+        this.anims.play('anim_body_fatality', true);
         this.scene.time.delayedCall(700, () => {
             const rotated = this.scene.rotatePoint(-221, 0, this.rotation);
             new BloodParticle(this.scene, this.x + rotated.x, this.y + rotated.y, true);

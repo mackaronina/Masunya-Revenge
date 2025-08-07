@@ -42,7 +42,7 @@ export default class Weapon {
         this.ammo = this.maxAmmo;
         this.lastFired = 0;
         this.sound = this.scene.sound.add(soundName, {loop: false, volume: 0.6});
-        this.noammo = this.scene.sound.add('noammosound', {loop: false, volume: 0.7});
+        this.noammo = this.scene.sound.add('no_ammo_sound', {loop: false, volume: 0.7});
     }
 
     drop(x, y) {

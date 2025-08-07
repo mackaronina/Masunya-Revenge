@@ -26,12 +26,6 @@ const config = {
     },
     pixelArt: true,
     disableContextMenu: true,
-    state: {
-        init: () => {
-            this.game.forceSingleUpdate = false;
-            this.time.desiredFps = 1;
-        }
-    },
     scene: [MenuScene, GameScene, UIScene]
 };
 

@@ -374,7 +374,7 @@
                         {
                          "name":"weapon",
                          "type":"string",
-                         "value":"kalash"
+                         "value":"rifle"
                         }],
                  "rotation":0,
                  "type":"",
@@ -402,7 +402,7 @@
                         {
                          "name":"weapon",
                          "type":"string",
-                         "value":"kalash"
+                         "value":"rifle"
                         }],
                  "rotation":0,
                  "type":"",
@@ -430,7 +430,7 @@
                         {
                          "name":"weapon",
                          "type":"string",
-                         "value":"drobash"
+                         "value":"shotgun"
                         }],
                  "rotation":0,
                  "type":"",
@@ -458,7 +458,7 @@
                         {
                          "name":"weapon",
                          "type":"string",
-                         "value":"kuvalda"
+                         "value":"hammer"
                         }],
                  "rotation":0,
                  "type":"",
@@ -486,7 +486,7 @@
                         {
                          "name":"weapon",
                          "type":"string",
-                         "value":"granata"
+                         "value":"shotgun"
                         }],
                  "rotation":0,
                  "type":"",
@@ -542,7 +542,7 @@
                         {
                          "name":"weapon",
                          "type":"string",
-                         "value":"kalash"
+                         "value":"rifle"
                         }],
                  "rotation":0,
                  "type":"",
@@ -570,7 +570,7 @@
                         {
                          "name":"weapon",
                          "type":"string",
-                         "value":"kuvalda"
+                         "value":"hammer"
                         }],
                  "rotation":0,
                  "type":"",
@@ -598,7 +598,7 @@
                         {
                          "name":"weapon",
                          "type":"string",
-                         "value":"drobash"
+                         "value":"shotgun"
                         }],
                  "rotation":0,
                  "type":"",
@@ -626,7 +626,7 @@
                         {
                          "name":"weapon",
                          "type":"string",
-                         "value":"drobash"
+                         "value":"shotgun"
                         }],
                  "rotation":0,
                  "type":"",
@@ -654,7 +654,7 @@
                         {
                          "name":"weapon",
                          "type":"string",
-                         "value":"kuvalda"
+                         "value":"hammer"
                         }],
                  "rotation":0,
                  "type":"",

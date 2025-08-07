@@ -9,16 +9,16 @@ export default class WeaponHands extends Weapon {
             Chaos: 6
         }
         const anims = {
-            Player: 'animMasunyaPunchFirst',
-            Enemy: 'animNecoarcPunchFirst',
-            Chaos: 'animChaosPunchFirst'
+            Player: 'anim_masunya_punch1',
+            Enemy: 'anim_necoarc_punch1',
+            Chaos: 'anim_chaos_punch1'
         }
         super({
             scene,
             handsSprite,
             isMelee: true,
             cooldown: 300,
-            soundName: 'zamahsound',
+            soundName: 'swing_sound',
             isSilent: true,
             anims,
             atackRadius: 54,
@@ -33,14 +33,14 @@ export default class WeaponHands extends Weapon {
     shoot(shooter, target, isPlayer, playEmptySound = false) {
         if (!super.shoot(shooter, target, isPlayer, playEmptySound)) return false;
         if (this.animsFlag) this.anims = {
-            Player: 'animMasunyaPunchFirst',
-            Enemy: 'animNecoarcPunchFirst',
-            Chaos: 'animChaosPunchFirst'
+            Player: 'anim_masunya_punch1',
+            Enemy: 'anim_necoarc_punch1',
+            Chaos: 'anim_chaos_punch1'
         }
         else this.anims = {
-            Player: 'animMasunyaPunchSecond',
-            Enemy: 'animNecoarcPunchSecond',
-            Chaos: 'animChaosPunchSecond'
+            Player: 'anim_masunya_punch2',
+            Enemy: 'anim_necoarc_punch2',
+            Chaos: 'anim_chaos_punch2'
         }
         this.animsFlag = !this.animsFlag;
         return true;

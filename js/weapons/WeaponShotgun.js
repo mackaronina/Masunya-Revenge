@@ -1,6 +1,6 @@
 import Weapon from './Weapon.js';
 
-export default class WeaponDrobash extends Weapon {
+export default class WeaponShotgun extends Weapon {
     constructor(scene) {
         const handsSprite = {
             Player: 4,
@@ -13,7 +13,7 @@ export default class WeaponDrobash extends Weapon {
             handsSprite,
             cooldown: 400,
             offset: 180,
-            soundName: 'drobashsound',
+            soundName: 'shotgun_sound',
             deviation: 0.112,
             shakeDuration: 200,
             shakeIntensity: 0.02

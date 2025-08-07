@@ -1,6 +1,6 @@
 import Weapon from './Weapon.js';
 
-export default class WeaponKalash extends Weapon {
+export default class WeaponRifle extends Weapon {
     constructor(scene) {
         const handsSprite = {
             Player: 5,
@@ -15,7 +15,7 @@ export default class WeaponKalash extends Weapon {
             isAuto: true,
             cooldown: 70,
             offset: 180,
-            soundName: 'kalashsound',
+            soundName: 'rifle_sound',
             deviation: 0.045
         });
     }

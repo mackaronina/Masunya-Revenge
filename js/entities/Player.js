@@ -3,7 +3,7 @@ import WeaponHands from '../weapons/WeaponHands.js';
 
 export default class Player extends Entity {
     constructor(scene, x, y) {
-        super(scene, x, y, 'masunya', 'masunyadead');
+        super(scene, x, y, 'masunya', 'masunya_dead');
         this.inputKeys = this.scene.input.keyboard.addKeys({
             up: Phaser.Input.Keyboard.KeyCodes.W,
             down: Phaser.Input.Keyboard.KeyCodes.S,
@@ -13,7 +13,7 @@ export default class Player extends Entity {
         this.inventoryWeapon = new WeaponHands(this.scene);
         this.scene.input.on('pointerdown', pointer => this.checkPointer(pointer));
         this.fatalityAnim = false;
-        this.fatalitySound = this.scene.sound.add('fatalitysound', {loop: false, volume: 0.6});
+        this.fatalitySound = this.scene.sound.add('fatality_sound', {loop: false, volume: 0.6});
         this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE).on('down', () => this.fatality());
         this.scene.physics.add.collider(this, this.scene.walls);
         this.scene.physics.add.collider(this, this.scene.glass);
@@ -49,60 +49,58 @@ export default class Player extends Entity {
         this.scene.time.delayedCall(533, () => {
             this.fatalitySound.play();
         });
-        this.anims.play('animMasunyaFatality', true).once('animationcomplete', () => {
+        this.anims.play('anim_masunya_fatality', true).once('animationcomplete', () => {
             this.x = oldX;
             this.y = oldY;
             this.fatalityAnim = false;
         });
     }
 
+    pickupWeapon() {
+        let nearestWeapon = null;
+        this.scene.droppedWeapons.children.each(droppedWeapon => {
+            if (Phaser.Math.Distance.BetweenPoints(this, droppedWeapon) < 162)
+                nearestWeapon = droppedWeapon;
+        });
+        if (nearestWeapon) this.inventoryWeapon = nearestWeapon.pickup();
+    }
+
+    dropWeapon() {
+        const vec = this.scene.physics.velocityFromRotation(this.rotation, 600);
+        const droppedWeapon = this.inventoryWeapon.drop(this.x, this.y);
+        droppedWeapon.setVelocity(vec.x, vec.y);
+        droppedWeapon.setDrag(Math.abs(vec.x) * 1.5, Math.abs(vec.y) * 1.5);
+        this.inventoryWeapon = new WeaponHands(this.scene);
+    }
+
     checkPointer(pointer) {
         if (!this.active || this.fatalityAnim) return;
-        if (pointer.leftButtonDown()) {
+        if (pointer.leftButtonDown())
             this.inventoryWeapon.shoot(this, this.scene.cursor, true, true);
-        } else if (pointer.rightButtonDown()) {
-            if (this.inventoryWeapon instanceof WeaponHands) {
-                let nearestWeapon = null;
-                this.scene.droppedWeapons.children.each(drop => {
-                    if (Phaser.Math.Distance.BetweenPoints(this, drop) < 162)
-                        nearestWeapon = drop;
-                });
-                if (nearestWeapon) this.inventoryWeapon = nearestWeapon.pickup();
-            } else {
-                const vec = this.scene.physics.velocityFromRotation(this.rotation, 600);
-                const dropped = this.inventoryWeapon.drop(this.x, this.y);
-                dropped.setVelocity(vec.x, vec.y);
-                dropped.setDrag(Math.abs(vec.x) * 1.5, Math.abs(vec.y) * 1.5);
-                this.inventoryWeapon = new WeaponHands(this.scene);
-            }
+        else if (pointer.rightButtonDown()) {
+            if (this.inventoryWeapon instanceof WeaponHands)
+                this.pickupWeapon();
+            else
+                this.dropWeapon();
         }
     }
 
-    update() {
-        this.prev_x = this.x;
-        this.prev_y = this.y;
-        if (this.fatalityAnim || !this.active) return;
-        super.update();
-        let playerVelocity = new Phaser.Math.Vector2();
-        if (this.inputKeys.left.isDown) {
+    moveByInput() {
+        const playerVelocity = new Phaser.Math.Vector2();
+        if (this.inputKeys.left.isDown)
             playerVelocity.x = -1;
-        } else if (this.inputKeys.right.isDown) {
+        else if (this.inputKeys.right.isDown)
             playerVelocity.x = 1;
-        }
-        if (this.inputKeys.up.isDown) {
+        if (this.inputKeys.up.isDown)
             playerVelocity.y = -1;
-        } else if (this.inputKeys.down.isDown) {
+        else if (this.inputKeys.down.isDown)
             playerVelocity.y = 1;
-        }
         playerVelocity.normalize();
         playerVelocity.scale(this.entitySpeed);
         this.setVelocity(playerVelocity.x, playerVelocity.y);
-        this.rotation = Phaser.Math.Angle.BetweenPoints(this, this.scene.cursor);
+    }
 
-        const pointer = this.scene.input.activePointer;
-        if (pointer.leftButtonDown() && this.inventoryWeapon.isAuto) {
-            this.inventoryWeapon.shoot(this, this.scene.cursor, true);
-        }
+    cropSpriteUnderWalls() {
         const rotated = this.scene.rotatePoint(210, 0, this.rotation);
         const pointX = this.x + rotated.x;
         const pointY = this.y + rotated.y;
@@ -110,6 +108,7 @@ export default class Player extends Entity {
         if (dist !== -1) this.setCrop(0, 0, 140 - Math.round(70 - dist / 3) + 10, 140);
         else this.setCrop(0, 0, 140, 140);
     }
+
 
     die(frame, attack, isAlive = false) {
         this.scene.deathScreen();
@@ -123,5 +122,23 @@ export default class Player extends Entity {
             this.die(frame, meleeHit);
         } else
             this.die(0, meleeHit, true);
+    }
+
+    update() {
+        this.prev_x = this.x;
+        this.prev_y = this.y;
+        if (this.fatalityAnim || !this.active) return;
+        super.update();
+
+        this.moveByInput();
+
+        this.rotation = Phaser.Math.Angle.BetweenPoints(this, this.scene.cursor);
+
+        const pointer = this.scene.input.activePointer;
+        if (pointer.leftButtonDown() && this.inventoryWeapon.isAuto) {
+            this.inventoryWeapon.shoot(this, this.scene.cursor, true);
+        }
+
+        this.cropSpriteUnderWalls();
     }
 }

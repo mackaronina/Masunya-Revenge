@@ -397,7 +397,7 @@
                         {
                          "name":"weapon",
                          "type":"string",
-                         "value":"kuvalda"
+                         "value":"hammer"
                         }],
                  "rotation":0,
                  "type":"",
@@ -425,7 +425,7 @@
                         {
                          "name":"weapon",
                          "type":"string",
-                         "value":"kuvalda"
+                         "value":"hammer"
                         }],
                  "rotation":0,
                  "type":"",
@@ -453,7 +453,7 @@
                         {
                          "name":"weapon",
                          "type":"string",
-                         "value":"makarov"
+                         "value":"pistol"
                         }],
                  "rotation":0,
                  "type":"",
@@ -481,7 +481,7 @@
                         {
                          "name":"weapon",
                          "type":"string",
-                         "value":"makarov"
+                         "value":"pistol"
                         }],
                  "rotation":0,
                  "type":"",
@@ -509,7 +509,7 @@
                         {
                          "name":"weapon",
                          "type":"string",
-                         "value":"kuvalda"
+                         "value":"hammer"
                         }],
                  "rotation":0,
                  "type":"",
@@ -537,7 +537,7 @@
                         {
                          "name":"weapon",
                          "type":"string",
-                         "value":"makarov"
+                         "value":"pistol"
                         }],
                  "rotation":0,
                  "type":"",
@@ -565,7 +565,7 @@
                         {
                          "name":"weapon",
                          "type":"string",
-                         "value":"kuvalda"
+                         "value":"hammer"
                         }],
                  "rotation":0,
                  "type":"",
@@ -593,7 +593,7 @@
                         {
                          "name":"weapon",
                          "type":"string",
-                         "value":"kuvalda"
+                         "value":"hammer"
                         }],
                  "rotation":0,
                  "type":"",

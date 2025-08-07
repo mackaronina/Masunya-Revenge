@@ -1,8 +1,8 @@
 import WeaponHands from './WeaponHands.js';
 import Weapon from './Weapon.js';
-import WeaponDrobash from './WeaponDrobash.js';
+import WeaponShotgun from './WeaponShotgun.js';
 
-export default class WeaponGranata extends Weapon {
+export default class WeaponGrenade extends Weapon {
     constructor(scene) {
         const handsSprite = {
             Player: 3,
@@ -16,7 +16,7 @@ export default class WeaponGranata extends Weapon {
             reactionTime: 100,
             cooldown: 2000,
             offset: 90,
-            soundName: 'zamahsound',
+            soundName: 'swing_sound',
             isSilent: true
         });
 
@@ -30,7 +30,7 @@ export default class WeaponGranata extends Weapon {
     shoot(shooter, target, isPlayer, playEmptySound = false) {
         if (!super.shoot(shooter, target, isPlayer, playEmptySound)) return false;
         if (isPlayer) shooter.inventoryWeapon = new WeaponHands(this.scene);
-        else shooter.inventoryWeapon = new WeaponDrobash(this.scene);
+        else shooter.inventoryWeapon = new WeaponShotgun(this.scene);
         return true;
     }
 }

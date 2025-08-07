@@ -1,6 +1,6 @@
 export default class PointerArrow extends Phaser.Physics.Arcade.Sprite {
     constructor(scene) {
-        super(scene, 0, 0, 'pointerarrow');
+        super(scene, 0, 0, 'pointer_arrow');
         scene.add.existing(this);
         scene.physics.add.existing(this);
         this.setOrigin(0.5);

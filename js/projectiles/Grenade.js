@@ -6,9 +6,10 @@ export default class Grenade extends Bullet {
         this.setTexture('weapons', 0);
         this.setCircle(10, 25, 25);
         this.setScale(3);
-        this.defaultSpeed = 2500;
+        this.defaultSpeed = 2000;
+        this.explosionTime = 1500;
         this.countBullets = 32;
-        this.sound = this.scene.sound.add('explosionsound', {loop: false, volume: 0.5});
+        this.sound = this.scene.sound.add('explosion_sound', {loop: false, volume: 0.5});
     }
 
     fire(shooter, target, deviation, isPlayer, offset) {
@@ -22,7 +23,7 @@ export default class Grenade extends Bullet {
         if (this.anims.isPlaying) return;
         super.update(time);
         this.rotation += 6;
-        if (time - this.startTime >= 1000) this.explode();
+        if (time - this.startTime >= this.explosionTime) this.explode();
     }
 
     explode() {
@@ -31,7 +32,7 @@ export default class Grenade extends Bullet {
             bullet.fire(this, this, i, 0);
         }
         this.setVelocity(0, 0);
-        this.anims.play('animExplosion', true).once('animationcomplete', () => {
+        this.anims.play('anim_explosion', true).once('animationcomplete', () => {
             this.disableBody(true, true);
         });
         this.scene.cameras.main.shake(200 / this.scene.cameras.main.zoom, 0.02 / this.scene.cameras.main.zoom, true);

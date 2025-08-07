@@ -11,7 +11,7 @@ export default class MeleeHitbox extends Phaser.Physics.Arcade.Sprite {
         this.owner = owner;
         this.startTime = scene.time.now;
         this.isLethal = isLethal;
-        this.sound = this.scene.sound.add('punchsound', {loop: false, volume: 0.9});
+        this.sound = this.scene.sound.add('punch_sound', {loop: false, volume: 0.9});
         this.scene.physics.add.overlap(this, this.scene.glass, (a, glassHit) => {
             const pointX = glassHit.x * 48 + 24;
             const pointY = glassHit.y * 48 + 24;

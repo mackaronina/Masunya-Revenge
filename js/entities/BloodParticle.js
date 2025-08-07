@@ -2,7 +2,7 @@ export default class BloodParticle extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, forFatality = false) {
         if (!forFatality) {
             const type = Phaser.Math.Between(0, 1);
-            super(scene, x, y, 'bloodparticle', type);
+            super(scene, x, y, 'blood_particle', type);
             scene.add.existing(this);
             scene.physics.add.existing(this);
             this.rotation = Phaser.Math.Angle.Random();
@@ -12,7 +12,7 @@ export default class BloodParticle extends Phaser.GameObjects.Sprite {
             else
                 this.setScale(Phaser.Math.Between(25, 35) * 0.1);
         } else {
-            super(scene, x, y, 'bloodparticle', 2);
+            super(scene, x, y, 'blood_particle', 2);
             scene.add.existing(this);
             scene.physics.add.existing(this);
             this.rotation = Phaser.Math.Angle.Random();

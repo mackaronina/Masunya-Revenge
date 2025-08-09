@@ -14,6 +14,10 @@ export default class WeaponDrop extends Phaser.Physics.Arcade.Sprite {
 
     }
 
+    isCanInteract() {
+        return this.active && this.scene.player && Phaser.Math.Distance.BetweenPoints(this, this.scene.player) < 162
+    }
+
     pickup() {
         this.destroy();
         return this.weapon;

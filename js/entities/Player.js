@@ -21,7 +21,6 @@ export default class Player extends Entity {
         this.scene.physics.add.collider(this, this.scene.furniture);
         this.scene.physics.add.collider(this, this.scene.enemyBullets, (a, bulletHit) => this.bulletCallback(bulletHit));
         this.scene.physics.add.overlap(this, this.scene.enemyHitboxes, (a, meleeHit) => this.meleeCallback(meleeHit));
-
         this.prev_x = this.x;
         this.prev_y = this.y;
     }
@@ -59,10 +58,13 @@ export default class Player extends Entity {
     pickupWeapon() {
         let nearestWeapon = null;
         this.scene.droppedWeapons.children.each(droppedWeapon => {
-            if (Phaser.Math.Distance.BetweenPoints(this, droppedWeapon) < 162)
+            if (droppedWeapon.isCanInteract())
                 nearestWeapon = droppedWeapon;
         });
-        if (nearestWeapon) this.inventoryWeapon = nearestWeapon.pickup();
+        if (nearestWeapon)
+            this.inventoryWeapon = nearestWeapon.pickup();
+        else if (this.scene.grenadesBox && this.scene.grenadesBox.isCanInteract())
+            this.inventoryWeapon = this.scene.grenadesBox.getGrenade();
     }
 
     dropWeapon() {

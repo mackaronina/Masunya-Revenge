@@ -18,6 +18,7 @@ import WeaponPistol from '../weapons/WeaponPistol.js';
 import WeaponGrenade from '../weapons/WeaponGrenade.js';
 import WeaponRifle from '../weapons/WeaponRifle.js';
 import WeaponShotgun from '../weapons/WeaponShotgun.js';
+import GrenadesBox from '../interactable/GrenadesBox.js';
 
 export default class GameScene extends BaseScene {
     constructor() {
@@ -51,6 +52,7 @@ export default class GameScene extends BaseScene {
         this.load.image('tileset', 'assets/images/tileset.png');
         this.load.image('arrow', 'assets/images/arrow.png');
         this.load.image('pointer_arrow', 'assets/images/pointer_arrow.png');
+        this.load.image('grenades_box', 'assets/images/grenades_box.png');
         this.load.image('table_interactable', 'assets/images/table_interactable.png');
         this.load.audio('death_sound', 'assets/audio/death.mp3');
         this.load.audio('main_ost', 'assets/audio/main_ost.mp3');
@@ -80,6 +82,7 @@ export default class GameScene extends BaseScene {
         this.deathCount = deathCount;
         this.ending = false;
         this.interactable = null;
+        this.grenadesBox = null;
 
         this.cameras.main.zoom = 0.8;
         this.drawBackground();
@@ -229,12 +232,12 @@ export default class GameScene extends BaseScene {
             enemy.x = enemy.x * 3 + 24;
             enemy.y = enemy.y * 3 - 24;
             const weapons = {
-                'hands': WeaponHands,
-                'hammer': WeaponHammer,
-                'pistol': WeaponPistol,
-                'rifle': WeaponRifle,
-                'shotgun': WeaponShotgun,
-                'grenade': WeaponGrenade
+                hands: WeaponHands,
+                hammer: WeaponHammer,
+                pistol: WeaponPistol,
+                rifle: WeaponRifle,
+                shotgun: WeaponShotgun,
+                grenade: WeaponGrenade
             }
             if (weapon === 'chaos')
                 this.enemies.add(new Chaos(this, enemy.x, enemy.y, angle, pattern));
@@ -243,17 +246,19 @@ export default class GameScene extends BaseScene {
         });
         map.getObjectLayer('points').objects.forEach(point => {
             const pointType = point.properties.find(p => p.name === 'pointType').value;
-            const center = {x: point.x * 3 + 24, y: point.y * 3 - 24};
-            const cornerRight = {x: point.x * 3 + 48, y: point.y * 3};
+            const coords = {
+                center: {x: point.x * 3 + 24, y: point.y * 3 - 24},
+                rightBottomCorner: {x: point.x * 3 + 48, y: point.y * 3}
+            }
             if (pointType === 'start') {
-                this.player.x = center.x;
-                this.player.y = center.y;
+                this.player.x = coords.center.x;
+                this.player.y = coords.center.y;
             } else if (pointType === 'end') {
                 const angle = point.properties.find(p => p.name === 'angle').value;
-                this.endArrow = new EndArrow(this, cornerRight.x, cornerRight.y + 24, angle);
+                this.endArrow = new EndArrow(this, coords.rightBottomCorner.x, coords.rightBottomCorner.y + 24, angle);
             } else if (pointType === 'controls') {
                 const text = 'WASD - Движение\nLMB - Стрельба/удар\nRMB - Поднять/выкинуть\nоружие\nSPACE - Добивание\nSHIFT - Осмотреться'
-                this.add.text(center.x, center.y, text, {
+                this.add.text(coords.center.x, coords.center.y, text, {
                     fontFamily: 'Comic Sans MS',
                     fontSize: 45,
                     fontStyle: 'normal',
@@ -263,8 +268,9 @@ export default class GameScene extends BaseScene {
             } else if (pointType === 'interactable') {
                 const interactableType = point.properties.find(p => p.name === 'interactableType').value;
                 if (interactableType === 'table')
-                    this.interactable = new TableInteractable(this, cornerRight.x, cornerRight.y);
-            }
+                    this.interactable = new TableInteractable(this, coords.rightBottomCorner.x, coords.rightBottomCorner.y);
+            } else if (pointType === 'grenades_box')
+                this.grenadesBox = new GrenadesBox(this, coords.rightBottomCorner.x, coords.rightBottomCorner.y);
         });
         map.getObjectLayer('doors').objects.forEach(door => {
             const doorOrientation = door.properties.find(p => p.name === 'orientation').value;

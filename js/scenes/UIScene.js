@@ -19,7 +19,7 @@ export default class UIScene extends BaseScene {
 
     create() {
         this.cursor = null;
-        this.ammoInfo = this.add.text(
+        this.ammoInfoText = this.add.text(
             30,
             this.game.config.height - 120,
             '',
@@ -31,9 +31,24 @@ export default class UIScene extends BaseScene {
                 align: 'center'
             }
         );
-        this.ammoInfo.setScrollFactor(0);
-        this.ammoInfo.setPadding(12, 12, 12, 12);
-        this.ammoInfo.depth = 99;
+        this.ammoInfoText.setScrollFactor(0);
+        this.ammoInfoText.setPadding(12, 12, 12, 12);
+        this.ammoInfoText.depth = 99;
+        this.grenadesInteractText = this.add.text(
+            this.game.config.width / 2,
+            this.game.config.height - 65,
+            '',
+            {
+                fontFamily: 'Comic Sans MS',
+                fontSize: 70,
+                fontStyle: 'normal',
+                color: '#f5f5f5',
+                align: 'center'
+            }
+        );
+        this.grenadesInteractText.setScrollFactor(0);
+        this.grenadesInteractText.setOrigin(0.5);
+        this.grenadesInteractText.depth = 99;
         this.gameScene = this.scene.get('game_scene');
         this.gameScene.events.on('ui_level_cleared', () => this.levelCleared());
         this.gameScene.events.on('ui_death_screen', () => this.deathScreen());
@@ -111,8 +126,12 @@ export default class UIScene extends BaseScene {
     update(time, delta) {
         super.update(time, delta);
         if (this.gameScene.player && !this.gameScene.player.inventoryWeapon.isMelee)
-            this.ammoInfo.setText(`${this.gameScene.player.inventoryWeapon.ammo}/${this.gameScene.player.inventoryWeapon.maxAmmo}`);
+            this.ammoInfoText.setText(`${this.gameScene.player.inventoryWeapon.ammo}/${this.gameScene.player.inventoryWeapon.maxAmmo}`);
         else
-            this.ammoInfo.setText('');
+            this.ammoInfoText.setText('');
+        if (this.gameScene.grenadesBox && this.gameScene.grenadesBox.isCanInteract())
+            this.grenadesInteractText.setText('ПКМ - Взять гранату');
+        else
+            this.grenadesInteractText.setText('');
     }
 }

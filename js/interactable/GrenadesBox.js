@@ -1,10 +1,9 @@
 import WeaponGrenade from '../weapons/WeaponGrenade.js';
+import PhysicObject from '../PhysicObject.js';
 
-export default class GrenadesBox extends Phaser.Physics.Arcade.Sprite {
+export default class GrenadesBox extends PhysicObject {
     constructor(scene, x, y) {
         super(scene, x, y, 'grenades_box');
-        scene.add.existing(this);
-        scene.physics.add.existing(this);
         this.setOrigin(0.5);
         this.setScale(3);
         this.depth = 31;

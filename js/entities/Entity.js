@@ -1,12 +1,11 @@
 import DeadBody from './DeadBody.js';
 import BloodParticle from './BloodParticle.js';
 import WeaponHands from '../weapons/WeaponHands.js';
+import PhysicObject from '../PhysicObject.js';
 
-export default class Entity extends Phaser.Physics.Arcade.Sprite {
+export default class Entity extends PhysicObject {
     constructor(scene, x, y, sprite, bodySprite) {
         super(scene, x, y, sprite, 0);
-        scene.add.existing(this);
-        scene.physics.add.existing(this);
         this.depth = 15;
         this.body.pushable = false;
         this.startSprite = sprite;

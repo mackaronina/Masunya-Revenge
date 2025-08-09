@@ -1,8 +1,8 @@
-export default class MeleeHitbox extends Phaser.Physics.Arcade.Sprite {
+import PhysicObject from '../PhysicObject.js';
+
+export default class MeleeHitbox extends PhysicObject {
     constructor(scene, owner, isLethal, atackRadius) {
         super(scene, owner.x, owner.y, null);
-        scene.add.existing(this);
-        scene.physics.add.existing(this);
         this.visible = false;
         this.setOrigin(0.5);
         this.setSize(atackRadius * 2, atackRadius * 2);

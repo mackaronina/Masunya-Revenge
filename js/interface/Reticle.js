@@ -1,8 +1,8 @@
-export default class Reticle extends Phaser.Physics.Arcade.Sprite {
+import PhysicObject from '../PhysicObject.js';
+
+export default class Reticle extends PhysicObject {
     constructor(scene) {
         super(scene, 0, 0, 'crosshair');
-        scene.add.existing(this);
-        scene.physics.add.existing(this);
         this.setOrigin(0.5);
         this.setScale(3 / this.scene.cameras.main.zoom);
         this.x = this.scene.player.x + 1;

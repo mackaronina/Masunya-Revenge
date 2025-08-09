@@ -1,8 +1,8 @@
-export default class WeaponDrop extends Phaser.Physics.Arcade.Sprite {
+import PhysicObject from '../PhysicObject.js';
+
+export default class WeaponDrop extends PhysicObject {
     constructor(scene, x, y, weapon) {
         super(scene, x, y, 'weapons', weapon.dropSprite);
-        scene.add.existing(this);
-        scene.physics.add.existing(this);
         this.weapon = weapon;
         this.setOrigin(0.5);
         this.setScale(3);

@@ -1,8 +1,8 @@
-export default class PatrolCircle extends Phaser.Physics.Arcade.Sprite {
+import PhysicObject from '../PhysicObject.js';
+
+export default class PatrolCircle extends PhysicObject {
     constructor(owner) {
         super(owner.scene, owner.x, owner.y, null);
-        owner.scene.add.existing(this);
-        owner.scene.physics.add.existing(this);
         this.visible = false;
         this.setOrigin(0.5);
         this.setSize(80, 80);

@@ -1,8 +1,8 @@
-export default class EndArrow extends Phaser.Physics.Arcade.Sprite {
+import PhysicObject from '../PhysicObject.js';
+
+export default class EndArrow extends PhysicObject {
     constructor(scene, x, y, angle) {
         super(scene, x, y);
-        scene.add.existing(this);
-        scene.physics.add.existing(this);
         this.setOrigin(0.5);
         this.visible = false;
         this.setSize(96 * 2, 96 * 2);

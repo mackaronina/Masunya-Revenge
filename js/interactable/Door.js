@@ -1,8 +1,8 @@
-export default class Door extends Phaser.Physics.Arcade.Sprite {
+import PhysicObject from '../PhysicObject.js';
+
+export default class Door extends PhysicObject {
     constructor(scene, x, y, orientation, frame) {
         super(scene, x, y, `door_${orientation}`, frame);
-        scene.add.existing(this);
-        scene.physics.add.existing(this);
         this.setOrigin(0);
         this.setScale(3);
         this.depth = 30;

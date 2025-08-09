@@ -1,10 +1,9 @@
 import BloodParticle from './BloodParticle.js';
+import PhysicObject from '../PhysicObject.js';
 
-export default class DeadBody extends Phaser.Physics.Arcade.Sprite {
+export default class DeadBody extends PhysicObject {
     constructor(scene, x, y, sprite, frame, isAlive) {
         super(scene, x, y, sprite, frame);
-        scene.add.existing(this);
-        scene.physics.add.existing(this);
         this.setOrigin(1, 0.5);
         this.setScale(2.7);
         this.setCircle(22, this.width - 22, (this.height - 44) / 2);

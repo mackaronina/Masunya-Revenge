@@ -1,10 +1,10 @@
-export default class BloodParticle extends Phaser.GameObjects.Sprite {
+import PhysicObject from '../PhysicObject.js';
+
+export default class BloodParticle extends PhysicObject {
     constructor(scene, x, y, forFatality = false) {
         if (!forFatality) {
             const type = Phaser.Math.Between(0, 1);
             super(scene, x, y, 'blood_particle', type);
-            scene.add.existing(this);
-            scene.physics.add.existing(this);
             this.rotation = Phaser.Math.Angle.Random();
             this.depth = 2;
             if (type === 0)
@@ -13,8 +13,6 @@ export default class BloodParticle extends Phaser.GameObjects.Sprite {
                 this.setScale(Phaser.Math.Between(25, 35) * 0.1);
         } else {
             super(scene, x, y, 'blood_particle', 2);
-            scene.add.existing(this);
-            scene.physics.add.existing(this);
             this.rotation = Phaser.Math.Angle.Random();
             this.depth = 2;
             this.setScale(0.1);

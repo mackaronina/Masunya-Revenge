@@ -1,8 +1,8 @@
-export default class PointerArrow extends Phaser.Physics.Arcade.Sprite {
+import PhysicObject from '../PhysicObject.js';
+
+export default class PointerArrow extends PhysicObject {
     constructor(scene) {
         super(scene, 0, 0, 'pointer_arrow');
-        scene.add.existing(this);
-        scene.physics.add.existing(this);
         this.setOrigin(0.5);
         this.setScale(3 / this.scene.cameras.main.zoom);
         this.setVisible(false);

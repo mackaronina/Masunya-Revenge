@@ -1,8 +1,8 @@
-export default class Bullet extends Phaser.Physics.Arcade.Sprite {
+import PhysicObject from '../PhysicObject.js';
+
+export default class Bullet extends PhysicObject {
     constructor(scene) {
         super(scene, 0, 0, 'bullet');
-        scene.add.existing(this);
-        scene.physics.add.existing(this);
         this.defaultSpeed = 4500;
         this.setOrigin(0.5);
         this.setCircle(2, 7, 7);

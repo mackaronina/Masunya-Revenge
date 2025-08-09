@@ -1,8 +1,8 @@
-export default class Cursor extends Phaser.Physics.Arcade.Sprite {
+import PhysicObject from '../PhysicObject.js';
+
+export default class Cursor extends PhysicObject {
     constructor(scene) {
         super(scene, 0, 0, 'cursor');
-        scene.add.existing(this);
-        scene.physics.add.existing(this);
         this.setOrigin(0.5);
         this.setScale(3);
         this.depth = 100;

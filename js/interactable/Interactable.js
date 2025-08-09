@@ -1,8 +1,8 @@
-export default class Interactable extends Phaser.Physics.Arcade.Sprite {
+import PhysicObject from '../PhysicObject.js';
+
+export default class Interactable extends PhysicObject {
     constructor(scene, x, y, sprite) {
         super(scene, x, y, sprite);
-        scene.add.existing(this);
-        scene.physics.add.existing(this);
         this.setOrigin(0.5);
         this.setScale(3);
         this.depth = 11;

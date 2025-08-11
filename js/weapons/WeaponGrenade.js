@@ -1,6 +1,6 @@
 import WeaponHands from './WeaponHands.js';
 import Weapon from './Weapon.js';
-import WeaponShotgun from './WeaponShotgun.js';
+import WeaponRifle from './WeaponRifle.js';
 
 export default class WeaponGrenade extends Weapon {
     constructor(scene) {
@@ -22,6 +22,10 @@ export default class WeaponGrenade extends Weapon {
 
     }
 
+    static preload(scene) {
+        scene.load.audio('swing_sound', 'assets/audio/swing.mp3');
+    }
+
     createBullets(shooter, target, isPlayer) {
         const grenade = this.scene.grenades.get();
         grenade.fire(shooter, target, this.getDeviation(), isPlayer, this.offset);
@@ -30,7 +34,7 @@ export default class WeaponGrenade extends Weapon {
     shoot(shooter, target, isPlayer, playEmptySound = false) {
         if (!super.shoot(shooter, target, isPlayer, playEmptySound)) return false;
         if (isPlayer) shooter.inventoryWeapon = new WeaponHands(this.scene);
-        else shooter.inventoryWeapon = new WeaponShotgun(this.scene);
+        else shooter.inventoryWeapon = new WeaponRifle(this.scene);
         return true;
     }
 }

@@ -20,6 +20,10 @@ export default class MeleeHitbox extends PhysicObject {
         });
     }
 
+    static preload(scene) {
+        scene.load.audio('punch_sound', 'assets/audio/punch.mp3');
+    }
+
     checkAngle(target, checkGlass = true, atackRadius = Math.PI / 4) {
         if (this.scene.angleDiff(Phaser.Math.Angle.BetweenPoints(this, target), this.owner.rotation) < atackRadius) {
             return this.scene.checkWalls(this, target, checkGlass);

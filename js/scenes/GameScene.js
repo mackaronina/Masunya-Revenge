@@ -19,6 +19,8 @@ import WeaponGrenade from '../weapons/WeaponGrenade.js';
 import WeaponRifle from '../weapons/WeaponRifle.js';
 import WeaponShotgun from '../weapons/WeaponShotgun.js';
 import GrenadesBox from '../interactable/GrenadesBox.js';
+import BloodParticle from '../entities/BloodParticle.js';
+import Weapon from '../weapons/Weapon.js';
 
 export default class GameScene extends BaseScene {
     constructor() {
@@ -27,45 +29,32 @@ export default class GameScene extends BaseScene {
 
     preload() {
         super.preload();
-        this.load.spritesheet('necoarc', 'assets/images/necoarc.png', {frameWidth: 140, frameHeight: 140});
-        this.load.spritesheet('necoarc_dead', 'assets/images/necoarc_dead.png', {frameWidth: 128, frameHeight: 58});
-        this.load.spritesheet('necoarc_anims', 'assets/images/necoarc_anims.png', {frameWidth: 140, frameHeight: 140});
-        this.load.spritesheet('masunya', 'assets/images/masunya.png', {frameWidth: 140, frameHeight: 140});
-        this.load.spritesheet('masunya_dead', 'assets/images/masunya_dead.png', {frameWidth: 130, frameHeight: 68});
-        this.load.spritesheet('masunya_anims', 'assets/images/masunya_anims.png', {frameWidth: 140, frameHeight: 140});
-        this.load.spritesheet('masunya_fatality', 'assets/images/masunya_fatality.png', {
-            frameWidth: 140,
-            frameHeight: 140
-        });
-        this.load.spritesheet('body_fatality', 'assets/images/body_fatality.png', {frameWidth: 128, frameHeight: 58});
-        this.load.spritesheet('explosion', 'assets/images/explosion.png', {frameWidth: 70, frameHeight: 70});
-        this.load.spritesheet('blood_particle', 'assets/images/blood_particle.png', {frameWidth: 64, frameHeight: 64});
-        this.load.spritesheet('weapons', 'assets/images/weapons.png', {frameWidth: 70, frameHeight: 70});
-        this.load.spritesheet('door_vertical', 'assets/images/door_vertical.png', {frameWidth: 16, frameHeight: 64});
-        this.load.spritesheet('door_horizontal', 'assets/images/door_horizontal.png', {
-            frameWidth: 64,
-            frameHeight: 16
-        });
-        this.load.image('bullet', 'assets/images/bullet.png');
-        this.load.image('crosshair', 'assets/images/crosshair.png');
-        //this.load.image('tileset', 'assets/images/extruded.png');
+        BloodParticle.preload(this);
+        DeadBody.preload(this);
+        Enemy.preload(this);
+        Player.preload(this);
+        Door.preload(this);
+        EndArrow.preload(this);
+        GrenadesBox.preload(this);
+        TableInteractable.preload(this);
+        PointerArrow.preload(this);
+        Reticle.preload(this);
+        Bullet.preload(this);
+        Grenade.preload(this);
+        MeleeHitbox.preload(this);
+        Weapon.preload(this);
+        WeaponDrop.preload(this);
+        WeaponGrenade.preload(this);
+        WeaponHammer.preload(this);
+        WeaponHands.preload(this);
+        WeaponPistol.preload(this);
+        WeaponRifle.preload(this);
+        WeaponShotgun.preload(this);
         this.load.image('tileset', 'assets/images/tileset.png');
-        this.load.image('arrow', 'assets/images/arrow.png');
-        this.load.image('pointer_arrow', 'assets/images/pointer_arrow.png');
-        this.load.image('grenades_box', 'assets/images/grenades_box.png');
-        this.load.image('table_interactable', 'assets/images/table_interactable.png');
-        this.load.audio('death_sound', 'assets/audio/death.mp3');
+        this.load.audio('death_ost', 'assets/audio/death_ost.mp3');
         this.load.audio('main_ost', 'assets/audio/main_ost.mp3');
         this.load.audio('peaceful_ost', 'assets/audio/peaceful_ost.mp3');
-        this.load.audio('no_ammo_sound', 'assets/audio/no_ammo.mp3');
-        this.load.audio('pistol_sound', 'assets/audio/pistol.mp3');
-        this.load.audio('rifle_sound', 'assets/audio/rifle.mp3');
-        this.load.audio('shotgun_sound', 'assets/audio/shotgun.mp3');
-        this.load.audio('explosion_sound', 'assets/audio/explosion.mp3');
-        this.load.audio('swing_sound', 'assets/audio/swing.mp3');
-        this.load.audio('punch_sound', 'assets/audio/punch.mp3');
         this.load.audio('glass_sound', 'assets/audio/glass.mp3');
-        this.load.audio('fatality_sound', 'assets/audio/fatality.mp3');
         this.load.tilemapTiledJSON('tilemap1', 'assets/maps/level1.json');
         this.load.tilemapTiledJSON('tilemap2', 'assets/maps/level2.json');
         this.load.tilemapTiledJSON('tilemap3', 'assets/maps/level3.json');
@@ -90,7 +79,7 @@ export default class GameScene extends BaseScene {
         this.currentTarget = null;
         this.mainost = this.sound.add('main_ost', {loop: true, volume: 0});
         this.peacefulost = this.sound.add('peaceful_ost', {loop: true, volume: 1});
-        this.deathost = this.sound.add('death_sound', {loop: true, volume: 1});
+        this.deathost = this.sound.add('death_ost', {loop: true, volume: 1});
         this.mainost.play();
         this.tweens.add({targets: this.mainost, volume: 1, duration: 1500});
         this.glassSound = this.sound.add('glass_sound', {loop: false, volume: 0.1});
@@ -147,72 +136,11 @@ export default class GameScene extends BaseScene {
         this.graphics = this.add.graphics();
         this.graphics.depth = 100;
 
-        this.anims.create({
-            key: 'anim_explosion',
-            frames: this.anims.generateFrameNumbers('explosion'),
-            duration: 200,
-            repeat: 0
-        });
-        this.anims.create({
-            key: 'anim_masunya_punch1',
-            frames: this.anims.generateFrameNumbers('masunya_anims', {start: 0, end: 2}),
-            duration: 200,
-            repeat: 0
-        });
-        this.anims.create({
-            key: 'anim_masunya_punch2',
-            frames: this.anims.generateFrameNumbers('masunya_anims', {start: 3, end: 5}),
-            duration: 200,
-            repeat: 0
-        });
-        this.anims.create({
-            key: 'anim_masunya_hammer',
-            frames: this.anims.generateFrameNumbers('masunya_anims', {start: 6, end: 8}),
-            duration: 200,
-            repeat: 0
-        });
-        this.anims.create({
-            key: 'anim_necoarc_punch1',
-            frames: this.anims.generateFrameNumbers('necoarc_anims', {start: 0, end: 2}),
-            duration: 200,
-            repeat: 0
-        });
-        this.anims.create({
-            key: 'anim_necoarc_punch2',
-            frames: this.anims.generateFrameNumbers('necoarc_anims', {start: 3, end: 5}),
-            duration: 200,
-            repeat: 0
-        });
-        this.anims.create({
-            key: 'anim_necoarc_hammer',
-            frames: this.anims.generateFrameNumbers('necoarc_anims', {start: 6, end: 8}),
-            duration: 200,
-            repeat: 0
-        });
-        this.anims.create({
-            key: 'anim_chaos_punch1',
-            frames: this.anims.generateFrameNumbers('necoarc_anims', {start: 9, end: 11}),
-            duration: 200,
-            repeat: 0
-        });
-        this.anims.create({
-            key: 'anim_chaos_punch2',
-            frames: this.anims.generateFrameNumbers('necoarc_anims', {start: 12, end: 14}),
-            duration: 200,
-            repeat: 0
-        });
-        this.anims.create({
-            key: 'anim_masunya_fatality',
-            frames: this.anims.generateFrameNumbers('masunya_fatality'),
-            duration: 800,
-            repeat: 0
-        });
-        this.anims.create({
-            key: 'anim_body_fatality',
-            frames: this.anims.generateFrameNumbers('body_fatality', {start: 0, end: 13}),
-            duration: 933,
-            repeat: 0
-        });
+        Grenade.createAnims(this);
+        WeaponHands.createAnims(this);
+        WeaponHammer.createAnims(this);
+        Player.createAnims(this);
+        DeadBody.createAnims(this);
 
         this.enemyBullets = this.physics.add.group({classType: Bullet, immovable: true});
         this.playerBullets = this.physics.add.group({classType: Bullet, immovable: true});
@@ -374,7 +302,7 @@ export default class GameScene extends BaseScene {
     makeNoise(point) {
         this.enemies.children.each(enemy => {
             if (!enemy.active) return;
-            if (Phaser.Math.Distance.BetweenPoints(point, enemy) < 1600)
+            if (Phaser.Math.Distance.BetweenPoints(point, enemy) < 1500)
                 enemy.agro = true;
         })
     }

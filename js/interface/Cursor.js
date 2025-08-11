@@ -15,4 +15,8 @@ export default class Cursor extends PhysicObject {
             if (Phaser.Geom.Rectangle.Contains(rect, this.x, this.y + pointer.movementY)) this.y += pointer.movementY;
         });
     }
+
+    static preload(scene) {
+        scene.load.image('cursor', 'assets/images/cursor.png');
+    }
 }

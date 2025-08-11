@@ -14,6 +14,10 @@ export default class WeaponDrop extends PhysicObject {
 
     }
 
+    static preload(scene) {
+        scene.load.spritesheet('weapons', 'assets/images/weapons.png', {frameWidth: 70, frameHeight: 70});
+    }
+
     isCanInteract() {
         return this.active && this.scene.player && Phaser.Math.Distance.BetweenPoints(this, this.scene.player) < 162
     }

@@ -29,6 +29,19 @@ export default class DeadBody extends PhysicObject {
         this.scene.physics.add.collider(this.components, this.scene.glass, collideCallback);
     }
 
+    static preload(scene) {
+        scene.load.spritesheet('body_fatality', 'assets/images/body_fatality.png', {frameWidth: 128, frameHeight: 58});
+    }
+
+    static createAnims(scene) {
+        scene.anims.create({
+            key: 'anim_body_fatality',
+            frames: scene.anims.generateFrameNumbers('body_fatality', {start: 0, end: 13}),
+            duration: 933,
+            repeat: 0
+        });
+    }
+
     move(attack) {
         const angle = Phaser.Math.Angle.BetweenPoints(this, attack);
         const vec = this.scene.physics.velocityFromRotation(angle, 900);

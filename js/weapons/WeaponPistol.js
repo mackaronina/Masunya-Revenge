@@ -17,4 +17,8 @@ export default class WeaponPistol extends Weapon {
             deviation: 0.027
         });
     }
+
+    static preload(scene) {
+        scene.load.audio('pistol_sound', 'assets/audio/pistol.mp3');
+    }
 }

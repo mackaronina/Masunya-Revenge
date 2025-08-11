@@ -27,6 +27,12 @@ export default class Enemy extends Entity {
         });
     }
 
+    static preload(scene) {
+        scene.load.spritesheet('necoarc', 'assets/images/necoarc.png', {frameWidth: 140, frameHeight: 140});
+        scene.load.spritesheet('necoarc_dead', 'assets/images/necoarc_dead.png', {frameWidth: 128, frameHeight: 58});
+        scene.load.spritesheet('necoarc_anims', 'assets/images/necoarc_anims.png', {frameWidth: 140, frameHeight: 140});
+    }
+
     checkSeePlayer() {
         if (this.scene.angleDiff(Phaser.Math.Angle.BetweenPoints(this, this.scene.player), this.rotation) < Math.PI / 3) {
             return this.scene.checkWalls(this, this.scene.player);

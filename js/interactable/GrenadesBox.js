@@ -12,6 +12,10 @@ export default class GrenadesBox extends PhysicObject {
         this.postFX.addShine(0.5, 0.3, 5);
     }
 
+    static preload(scene) {
+        scene.load.image('grenades_box', 'assets/images/grenades_box.png');
+    }
+
     getGrenade() {
         const grenade = new WeaponGrenade(this.scene);
         this.givenGrenades += 1;

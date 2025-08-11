@@ -42,4 +42,8 @@ export default class Reticle extends PhysicObject {
 
         });
     }
+
+    static preload(scene) {
+        scene.load.image('crosshair', 'assets/images/crosshair.png');
+    }
 }

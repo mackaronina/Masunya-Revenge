@@ -425,7 +425,7 @@
                         {
                          "name":"angle",
                          "type":"int",
-                         "value":0
+                         "value":180
                         }, 
                         {
                          "name":"pattern",
@@ -519,7 +519,7 @@
                         {
                          "name":"weapon",
                          "type":"string",
-                         "value":"rifle"
+                         "value":"shotgun"
                         }],
                  "rotation":0,
                  "type":"",
@@ -615,34 +615,6 @@
                 {
                  "gid":97,
                  "height":16,
-                 "id":180,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"angle",
-                         "type":"int",
-                         "value":0
-                        }, 
-                        {
-                         "name":"pattern",
-                         "type":"string",
-                         "value":"random"
-                        }, 
-                        {
-                         "name":"weapon",
-                         "type":"string",
-                         "value":"chaos"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":16,
-                 "x":1136,
-                 "y":640
-                }, 
-                {
-                 "gid":97,
-                 "height":16,
                  "id":183,
                  "name":"",
                  "properties":[
@@ -659,7 +631,7 @@
                         {
                          "name":"weapon",
                          "type":"string",
-                         "value":"grenade"
+                         "value":"rifle"
                         }],
                  "rotation":0,
                  "type":"",
@@ -687,7 +659,7 @@
                         {
                          "name":"weapon",
                          "type":"string",
-                         "value":"grenade"
+                         "value":"shotgun"
                         }],
                  "rotation":0,
                  "type":"",
@@ -695,6 +667,34 @@
                  "width":16,
                  "x":1200,
                  "y":544
+                }, 
+                {
+                 "gid":97,
+                 "height":16,
+                 "id":186,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"angle",
+                         "type":"int",
+                         "value":180
+                        }, 
+                        {
+                         "name":"pattern",
+                         "type":"string",
+                         "value":"patrol"
+                        }, 
+                        {
+                         "name":"weapon",
+                         "type":"string",
+                         "value":"grenade"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":672,
+                 "y":64
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -773,7 +773,7 @@
          "y":0
         }],
  "nextlayerid":33,
- "nextobjectid":186,
+ "nextobjectid":187,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.0",

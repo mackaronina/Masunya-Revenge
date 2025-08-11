@@ -19,4 +19,8 @@ export default class WeaponRifle extends Weapon {
             deviation: 0.045
         });
     }
+
+    static preload(scene) {
+        scene.load.audio('rifle_sound', 'assets/audio/rifle.mp3');
+    }
 }

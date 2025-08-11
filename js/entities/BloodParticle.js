@@ -19,4 +19,8 @@ export default class BloodParticle extends PhysicObject {
             this.scene.tweens.add({targets: this, scale: Phaser.Math.Between(25, 35) * 0.1, duration: 400});
         }
     }
+
+    static preload(scene) {
+        scene.load.spritesheet('blood_particle', 'assets/images/blood_particle.png', {frameWidth: 64, frameHeight: 64});
+    }
 }

@@ -18,6 +18,10 @@ export default class PointerArrow extends PhysicObject {
         });
     }
 
+    static preload(scene) {
+        scene.load.image('pointer_arrow', 'assets/images/pointer_arrow.png');
+    }
+
     update() {
         if (!this.scene.currentTarget) return;
         const dir = Phaser.Math.Angle.BetweenPoints(this, this.scene.currentTarget);

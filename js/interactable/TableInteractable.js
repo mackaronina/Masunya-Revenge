@@ -5,6 +5,10 @@ export default class TableInteractable extends Interactable {
         super(scene, x, y, 'table_interactable');
     }
 
+    static preload(scene) {
+        scene.load.image('table_interactable', 'assets/images/table_interactable.png');
+    }
+
     onInteract() {
         this.scene.activateEndArrow();
         this.scene.pause();

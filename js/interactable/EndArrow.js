@@ -30,6 +30,10 @@ export default class EndArrow extends PhysicObject {
         });
     }
 
+    static preload(scene) {
+        scene.load.image('arrow', 'assets/images/arrow.png');
+    }
+
     update() {
         const rotated = this.scene.rotatePoint(this.dist, 0, this.arrow.rotation);
         this.arrow.x = this.x + rotated.x;

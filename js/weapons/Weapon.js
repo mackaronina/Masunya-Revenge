@@ -45,6 +45,10 @@ export default class Weapon {
         this.noammo = this.scene.sound.add('no_ammo_sound', {loop: false, volume: 0.7});
     }
 
+    static preload(scene) {
+        scene.load.audio('no_ammo_sound', 'assets/audio/no_ammo.mp3');
+    }
+
     drop(x, y) {
         const droppedWeapon = new WeaponDrop(this.scene, x, y, this);
         this.scene.droppedWeapons.add(droppedWeapon);

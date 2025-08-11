@@ -25,6 +25,26 @@ export default class Player extends Entity {
         this.prev_y = this.y;
     }
 
+    static preload(scene) {
+        scene.load.spritesheet('masunya', 'assets/images/masunya.png', {frameWidth: 140, frameHeight: 140});
+        scene.load.spritesheet('masunya_dead', 'assets/images/masunya_dead.png', {frameWidth: 130, frameHeight: 68});
+        scene.load.spritesheet('masunya_anims', 'assets/images/masunya_anims.png', {frameWidth: 140, frameHeight: 140});
+        scene.load.spritesheet('masunya_fatality', 'assets/images/masunya_fatality.png', {
+            frameWidth: 140,
+            frameHeight: 140
+        });
+        scene.load.audio('fatality_sound', 'assets/audio/fatality.mp3');
+    }
+
+    static createAnims(scene) {
+        scene.anims.create({
+            key: 'anim_masunya_fatality',
+            frames: scene.anims.generateFrameNumbers('masunya_fatality'),
+            duration: 800,
+            repeat: 0
+        });
+    }
+
     fatality() {
         if (this.fatalityAnim || !this.active) return;
         let nearestBody = null;

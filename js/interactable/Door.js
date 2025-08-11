@@ -17,6 +17,14 @@ export default class Door extends PhysicObject {
         this.colliders.push(this.scene.physics.add.collider(this, this.scene.grenades));
     }
 
+    static preload(scene) {
+        scene.load.spritesheet('door_vertical', 'assets/images/door_vertical.png', {frameWidth: 16, frameHeight: 64});
+        scene.load.spritesheet('door_horizontal', 'assets/images/door_horizontal.png', {
+            frameWidth: 64,
+            frameHeight: 16
+        });
+    }
+
     overlapEntity() {
         if (!this.active) return;
         const touching = !this.body.touching.none || this.body.embedded;

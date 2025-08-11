@@ -15,6 +15,10 @@ export default class Bullet extends PhysicObject {
         this.scene.physics.add.overlap(this, this.scene.glass, (a, glassHit) => this.scene.destroyGlass(glassHit));
     }
 
+    static preload(scene) {
+        scene.load.image('bullet', 'assets/images/bullet.png');
+    }
+
     fire(shooter, target, deviation, offset = 0) {
         this.startTime = this.scene.time.now;
         const speed = Phaser.Math.Between(this.defaultSpeed * 0.9, this.defaultSpeed * 1.1);

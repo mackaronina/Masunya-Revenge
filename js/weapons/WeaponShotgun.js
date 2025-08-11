@@ -21,6 +21,10 @@ export default class WeaponShotgun extends Weapon {
         this.countBullets = 6;
     }
 
+    static preload(scene) {
+        scene.load.audio('shotgun_sound', 'assets/audio/shotgun.mp3');
+    }
+
     createBullets(shooter, target, isPlayer) {
         for (let i = 0; i < this.countBullets; i++) {
             const bullet = this.getBullet(isPlayer);

@@ -11,10 +11,10 @@ export default class MenuScene extends BaseScene {
 
     preload() {
         super.preload();
+        Cursor.preload(this);
+        MenuMasunyaSpin.preload(this);
         this.load.image('button_start', 'assets/images/button_start.png');
-        this.load.image('cursor', 'assets/images/cursor.png');
         this.load.image('main_title', 'assets/images/main_title.png');
-        this.load.spritesheet('masunya_spin', 'assets/images/masunya_spin.png', {frameWidth: 408, frameHeight: 491});
         this.load.audio('menu_ost', 'assets/audio/menu_ost.mp3');
     }
 

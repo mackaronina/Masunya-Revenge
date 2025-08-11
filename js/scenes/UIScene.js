@@ -10,10 +10,10 @@ export default class UIScene extends BaseScene {
 
     preload() {
         super.preload();
+        Cursor.preload(this);
         this.load.image('level_cleared', 'assets/images/level_cleared.png');
         this.load.image('death_screen', 'assets/images/death_screen.png');
         this.load.image('button_restart', 'assets/images/button_restart.png');
-        this.load.image('cursor', 'assets/images/cursor.png');
         this.load.image('notepad', 'assets/images/notepad.png');
     }
 

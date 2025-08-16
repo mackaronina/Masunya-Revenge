@@ -66,7 +66,7 @@ export default class GameScene extends BaseScene {
         });
     }
 
-    create({level = 4, deathCount = 0}) {
+    create({level = 1, deathCount = 0}) {
         this.level = level;
         this.deathCount = deathCount;
         this.ending = false;
@@ -141,7 +141,7 @@ export default class GameScene extends BaseScene {
         Enemy.createAnims(this);
         Chaos.createAnims(this);
         Grenade.createAnims(this);
-        
+
         this.enemyBullets = this.physics.add.group({classType: Bullet, immovable: true});
         this.playerBullets = this.physics.add.group({classType: Bullet, immovable: true});
         this.grenades = this.physics.add.group({classType: Grenade});

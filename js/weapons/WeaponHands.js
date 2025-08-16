@@ -31,44 +31,6 @@ export default class WeaponHands extends Weapon {
         scene.load.audio('swing_sound', 'assets/audio/swing.mp3');
     }
 
-    static createAnims(scene) {
-        scene.anims.create({
-            key: 'anim_masunya_punch1',
-            frames: scene.anims.generateFrameNumbers('masunya_anims', {start: 0, end: 2}),
-            duration: 200,
-            repeat: 0
-        });
-        scene.anims.create({
-            key: 'anim_masunya_punch2',
-            frames: scene.anims.generateFrameNumbers('masunya_anims', {start: 3, end: 5}),
-            duration: 200,
-            repeat: 0
-        });
-        scene.anims.create({
-            key: 'anim_necoarc_punch1',
-            frames: scene.anims.generateFrameNumbers('necoarc_anims', {start: 0, end: 2}),
-            duration: 200,
-            repeat: 0
-        });
-        scene.anims.create({
-            key: 'anim_necoarc_punch2',
-            frames: scene.anims.generateFrameNumbers('necoarc_anims', {start: 3, end: 5}),
-            duration: 200,
-            repeat: 0
-        });
-        scene.anims.create({
-            key: 'anim_chaos_punch1',
-            frames: scene.anims.generateFrameNumbers('necoarc_anims', {start: 9, end: 11}),
-            duration: 200,
-            repeat: 0
-        });
-        scene.anims.create({
-            key: 'anim_chaos_punch2',
-            frames: scene.anims.generateFrameNumbers('necoarc_anims', {start: 12, end: 14}),
-            duration: 200,
-            repeat: 0
-        });
-    }
 
     drop(x, y) {
     }

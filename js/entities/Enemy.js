@@ -33,6 +33,33 @@ export default class Enemy extends Entity {
         scene.load.spritesheet('necoarc_anims', 'assets/images/necoarc_anims.png', {frameWidth: 140, frameHeight: 140});
     }
 
+    static createAnims(scene) {
+        scene.anims.create({
+            key: 'anim_necoarc_punch1',
+            frames: scene.anims.generateFrameNumbers('necoarc_anims', {start: 0, end: 2}),
+            duration: 200,
+            repeat: 0
+        });
+        scene.anims.create({
+            key: 'anim_necoarc_punch2',
+            frames: scene.anims.generateFrameNumbers('necoarc_anims', {start: 3, end: 5}),
+            duration: 200,
+            repeat: 0
+        });
+        scene.anims.create({
+            key: 'anim_necoarc_hammer',
+            frames: scene.anims.generateFrameNumbers('necoarc_anims', {start: 6, end: 8}),
+            duration: 200,
+            repeat: 0
+        });
+        scene.anims.create({
+            key: 'anim_necoarc_grenade',
+            frames: scene.anims.generateFrameNumbers('necoarc_anims', {start: 15, end: 17}),
+            duration: 200,
+            repeat: 0
+        });
+    }
+
     checkSeePlayer() {
         if (this.scene.angleDiff(Phaser.Math.Angle.BetweenPoints(this, this.scene.player), this.rotation) < Math.PI / 3) {
             return this.scene.checkWalls(this, this.scene.player);

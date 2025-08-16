@@ -43,10 +43,34 @@ export default class Player extends Entity {
             duration: 800,
             repeat: 0
         });
+        scene.anims.create({
+            key: 'anim_masunya_punch1',
+            frames: scene.anims.generateFrameNumbers('masunya_anims', {start: 0, end: 2}),
+            duration: 200,
+            repeat: 0
+        });
+        scene.anims.create({
+            key: 'anim_masunya_punch2',
+            frames: scene.anims.generateFrameNumbers('masunya_anims', {start: 3, end: 5}),
+            duration: 200,
+            repeat: 0
+        });
+        scene.anims.create({
+            key: 'anim_masunya_hammer',
+            frames: scene.anims.generateFrameNumbers('masunya_anims', {start: 6, end: 8}),
+            duration: 200,
+            repeat: 0
+        });
+        scene.anims.create({
+            key: 'anim_masunya_grenade',
+            frames: scene.anims.generateFrameNumbers('masunya_anims', {start: 9, end: 11}),
+            duration: 200,
+            repeat: 0
+        });
     }
 
     fatality() {
-        if (this.fatalityAnim || !this.active) return;
+        if (this.anims.isPlaying || !this.active) return;
         let nearestBody = null;
         this.scene.deadBodies.children.each(body => {
             if (!body.isAlive) return;
@@ -96,7 +120,7 @@ export default class Player extends Entity {
     }
 
     checkPointer(pointer) {
-        if (!this.active || this.fatalityAnim) return;
+        if (!this.active || this.anims.isPlaying) return;
         if (pointer.leftButtonDown())
             this.inventoryWeapon.shoot(this, this.scene.cursor, true, true);
         else if (pointer.rightButtonDown()) {

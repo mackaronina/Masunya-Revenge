@@ -8,6 +8,21 @@ export default class Chaos extends Enemy {
         this.health = 3;
     }
 
+    static createAnims(scene) {
+        scene.anims.create({
+            key: 'anim_chaos_punch1',
+            frames: scene.anims.generateFrameNumbers('necoarc_anims', {start: 9, end: 11}),
+            duration: 200,
+            repeat: 0
+        });
+        scene.anims.create({
+            key: 'anim_chaos_punch2',
+            frames: scene.anims.generateFrameNumbers('necoarc_anims', {start: 12, end: 14}),
+            duration: 200,
+            repeat: 0
+        });
+    }
+
     meleeCallback(meleeHit) {
         if (!this.active) return;
         if (!meleeHit.checkAngle(this)) return;

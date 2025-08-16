@@ -22,7 +22,7 @@ export default class Grenade extends Bullet {
         scene.anims.create({
             key: 'anim_explosion',
             frames: scene.anims.generateFrameNumbers('explosion'),
-            duration: 200,
+            duration: 123,
             repeat: 0
         });
     }

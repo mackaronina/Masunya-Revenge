@@ -136,12 +136,12 @@ export default class GameScene extends BaseScene {
         this.graphics = this.add.graphics();
         this.graphics.depth = 100;
 
-        Grenade.createAnims(this);
-        WeaponHands.createAnims(this);
-        WeaponHammer.createAnims(this);
         Player.createAnims(this);
         DeadBody.createAnims(this);
-
+        Enemy.createAnims(this);
+        Chaos.createAnims(this);
+        Grenade.createAnims(this);
+        
         this.enemyBullets = this.physics.add.group({classType: Bullet, immovable: true});
         this.playerBullets = this.physics.add.group({classType: Bullet, immovable: true});
         this.grenades = this.physics.add.group({classType: Grenade});

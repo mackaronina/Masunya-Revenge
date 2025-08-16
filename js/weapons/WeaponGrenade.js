@@ -8,16 +8,21 @@ export default class WeaponGrenade extends Weapon {
             Player: 3,
             Enemy: 3
         }
+        const anims = {
+            Player: 'anim_masunya_grenade',
+            Enemy: 'anim_necoarc_grenade',
+        }
         super({
             scene,
             maxAmmo: 1,
             dropSprite: 0,
             handsSprite,
-            reactionTime: 100,
+            reactionTime: 0,
             cooldown: 2000,
-            offset: 90,
+            offset: 153,
             soundName: 'swing_sound',
-            isSilent: true
+            isSilent: true,
+            anims
         });
 
     }
@@ -26,9 +31,13 @@ export default class WeaponGrenade extends Weapon {
         scene.load.audio('swing_sound', 'assets/audio/swing.mp3');
     }
 
+
     createBullets(shooter, target, isPlayer) {
-        const grenade = this.scene.grenades.get();
-        grenade.fire(shooter, target, this.getDeviation(), isPlayer, this.offset);
+        this.scene.time.delayedCall(200, () => {
+            if (!shooter.active) return;
+            const grenade = this.scene.grenades.get();
+            grenade.fire(shooter, target, this.getDeviation(), isPlayer, this.offset);
+        });
     }
 
     shoot(shooter, target, isPlayer, playEmptySound = false) {

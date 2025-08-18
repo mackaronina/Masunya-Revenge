@@ -1,4 +1,5 @@
 import PhysicObject from '../PhysicObject.js';
+import config from '../config.js';
 
 export default class BloodParticle extends PhysicObject {
     constructor(scene, x, y) {
@@ -10,7 +11,7 @@ export default class BloodParticle extends PhysicObject {
         }
         this.setScale(scales[spriteIndex]);
         this.rotation = Phaser.Math.Angle.Random();
-        this.depth = 2;
+        this.depth = config.depth.blood;
     }
 
     static preload(scene) {

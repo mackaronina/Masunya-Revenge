@@ -21,6 +21,7 @@ import WeaponShotgun from '../weapons/WeaponShotgun.js';
 import GrenadesBox from '../interactable/GrenadesBox.js';
 import BloodParticle from '../entities/BloodParticle.js';
 import Weapon from '../weapons/Weapon.js';
+import config from '../config.js';
 
 export default class GameScene extends BaseScene {
     constructor() {
@@ -66,7 +67,7 @@ export default class GameScene extends BaseScene {
         });
     }
 
-    create({level = 1, deathCount = 0}) {
+    create({level = config.startLevel, deathCount = 0}) {
         this.level = level;
         this.deathCount = deathCount;
         this.ending = false;
@@ -91,28 +92,30 @@ export default class GameScene extends BaseScene {
         const map = this.make.tilemap({key: `tilemap${this.level}`});
         //const tileset = map.addTilesetImage('tileset', 'tileset', 16, 16, 1, 2);
         const tileset = map.addTilesetImage('tileset', 'tileset', 16, 16);
+
         const floor = map.createLayer('floor', tileset);
         floor.setScale(3);
-        floor.depth = 1;
+        floor.depth = config.depth.floor;
+
         this.walls = map.createLayer('walls', tileset);
         this.walls.setScale(3);
         this.walls.setCollisionByExclusion(-1, true);
-        this.walls.depth = 30;
+        this.walls.depth = config.depth.walls;
 
         this.glass = map.createLayer('glass', tileset);
         this.glass.setScale(3);
         this.glass.setCollisionByExclusion(-1, true);
-        this.glass.depth = 20;
+        this.glass.depth = config.depth.glass;
 
         this.brokenglass = map.createBlankLayer('broken_walls', tileset);
         this.brokenglass.setScale(3);
         this.brokenglass.setCollisionByExclusion(-1, true);
-        this.brokenglass.depth = 11;
+        this.brokenglass.depth = config.depth.brokenGlass;
 
         this.furniture = map.createLayer('furniture', tileset);
         this.furniture.setScale(3);
         this.furniture.setCollisionByExclusion(-1, true);
-        this.furniture.depth = 10;
+        this.furniture.depth = config.depth.furniture;
 
         const pathWalls = map.createBlankLayer('path_walls', tileset);
         for (let y = 1; y < map.height - 1; y++) {
@@ -128,13 +131,13 @@ export default class GameScene extends BaseScene {
             }
         }
         pathWalls.visible = false;
-        pathWalls.depth = 100;
+        pathWalls.depth = config.depth.interface;
         pathWalls.setScale(3);
         pathWalls.setCollisionByExclusion(-1, true);
 
         this.navMesh = this.navMeshPlugin.buildMeshFromTilemap('mesh', map, [pathWalls]);
         this.graphics = this.add.graphics();
-        this.graphics.depth = 100;
+        this.graphics.depth = config.depth.interface;
 
         Player.createAnims(this);
         DeadBody.createAnims(this);
@@ -142,8 +145,8 @@ export default class GameScene extends BaseScene {
         Chaos.createAnims(this);
         Grenade.createAnims(this);
 
-        this.enemyBullets = this.physics.add.group({classType: Bullet, immovable: true});
-        this.playerBullets = this.physics.add.group({classType: Bullet, immovable: true});
+        this.enemyBullets = this.physics.add.group({classType: Bullet, immovable: true, maxCount: 100});
+        this.playerBullets = this.physics.add.group({classType: Bullet, immovable: true, maxCount: 100});
         this.grenades = this.physics.add.group({classType: Grenade});
         this.enemies = this.physics.add.group({classType: Enemy, immovable: true});
         this.droppedWeapons = this.physics.add.group({classType: WeaponDrop});
@@ -172,6 +175,7 @@ export default class GameScene extends BaseScene {
             else
                 this.enemies.add(new Enemy(this, enemy.x, enemy.y, new weapons[weapon](this), angle, pattern));
         });
+
         map.getObjectLayer('points').objects.forEach(point => {
             const pointType = point.properties.find(p => p.name === 'pointType').value;
             const coords = {
@@ -185,9 +189,9 @@ export default class GameScene extends BaseScene {
                 const angle = point.properties.find(p => p.name === 'angle').value;
                 this.endArrow = new EndArrow(this, coords.rightBottomCorner.x, coords.rightBottomCorner.y + 24, angle);
             } else if (pointType === 'controls') {
-                const text = 'WASD - Движение\nLMB - Стрельба/удар\nRMB - Поднять/выкинуть\nоружие\nSPACE - Добивание\nSHIFT - Осмотреться'
+                const text = config.text.ru.controls;
                 this.add.text(coords.center.x, coords.center.y, text, {
-                    fontFamily: 'Comic Sans MS',
+                    fontFamily: 'Soup of justice',
                     fontSize: 45,
                     fontStyle: 'normal',
                     color: '#f5f5f5',
@@ -200,6 +204,7 @@ export default class GameScene extends BaseScene {
             } else if (pointType === 'grenades_box')
                 this.grenadesBox = new GrenadesBox(this, coords.rightBottomCorner.x, coords.rightBottomCorner.y);
         });
+
         map.getObjectLayer('doors').objects.forEach(door => {
             const doorOrientation = door.properties.find(p => p.name === 'orientation').value;
             const frame = door.properties.find(p => p.name === 'frame').value;
@@ -248,16 +253,8 @@ export default class GameScene extends BaseScene {
     }
 
     destroyGlass(glassTile) {
-        const newTiles = {
-            100: 101,
-            132: 133,
-            164: 165,
-            129: 161,
-            130: 162,
-            131: 163
-        }
-        if (!newTiles[glassTile.index]) return;
-        const newIndex = newTiles[glassTile.index];
+        if (!config.brokenGlassTiles[glassTile.index]) return;
+        const newIndex = config.brokenGlassTiles[glassTile.index];
         this.glass.putTileAt(-1, glassTile.x, glassTile.y);
         this.glass.setCollisionByExclusion(-1, true);
         this.brokenglass.putTileAt(newIndex, glassTile.x, glassTile.y);
@@ -392,21 +389,3 @@ export default class GameScene extends BaseScene {
             this.levelEnd();
     }
 }
-/*
-ГЛУБИНЫ
-ФОН -1
-ПОЛ 0
-КРОВЬ 2
-МЕБЕЛЬ 10
-СЛОМАННОЕ СТЕКЛО 11
-ТЕЛО 12
-ОРУЖИЕ 13
-ВРАГИ/ИГРОК 15
-ПУЛИ 16
-СТРЕЛКИ 19
-СТЕКЛО 20
-СТЕНЫ 30
-ДВЕРИ 30
-ТЕКСТ 99
-КУРСОР 100
- */

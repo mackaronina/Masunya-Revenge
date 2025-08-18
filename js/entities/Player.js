@@ -142,7 +142,7 @@ export default class Player extends Entity {
         else if (this.inputKeys.down.isDown)
             playerVelocity.y = 1;
         playerVelocity.normalize();
-        playerVelocity.scale(this.entitySpeed);
+        playerVelocity.scale(this.runSpeed);
         this.setVelocity(playerVelocity.x, playerVelocity.y);
     }
 

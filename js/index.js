@@ -1,13 +1,15 @@
 import GameScene from './scenes/GameScene.js'
 import MenuScene from './scenes/MenuScene.js';
 import UIScene from './scenes/UIScene.js';
+import config from './config.js';
 
 const ratio = Math.max(window.screen.width / window.screen.height, window.screen.height / window.screen.width);
 const DEFAULT_HEIGHT = 1080;
 const DEFAULT_WIDTH = Math.round(ratio * DEFAULT_HEIGHT);
 
-const config = {
+const phaserConfig = {
     type: Phaser.AUTO,
+    powerPreference: 'high-performance',
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
@@ -20,7 +22,7 @@ const config = {
         arcade: {
             gravity: {y: 0},
             fps: 300,
-            debug: true,
+            debug: config.debug,
             debugBodyColor: 0x000000
         }
     },
@@ -29,7 +31,7 @@ const config = {
     scene: [MenuScene, GameScene, UIScene]
 };
 
-const game = new Phaser.Game(config);
+const game = new Phaser.Game(phaserConfig);
 
 game.canvas.style.cursor = 'none';
 game.canvas.addEventListener('mousedown', () => {

@@ -2,17 +2,18 @@ import DeadBody from './DeadBody.js';
 import BloodParticle from './BloodParticle.js';
 import WeaponHands from '../weapons/WeaponHands.js';
 import PhysicObject from '../PhysicObject.js';
+import config from '../config.js';
 
 export default class Entity extends PhysicObject {
     constructor(scene, x, y, sprite, bodySprite) {
         super(scene, x, y, sprite, 0);
-        this.depth = 15;
+        this.depth = config.depth.entity;
         this.body.pushable = false;
         this.startSprite = sprite;
         this.inventoryWeapon = new WeaponHands(this.scene);
         this.bodySprite = bodySprite;
-        this.entitySpeed = 1000;
-        this.entitySlowSpeed = 400;
+        this.runSpeed = config.entity.runSpeed;
+        this.stepSpeed = config.entity.stepSpeed;
         this.setOrigin(0.5);
         this.setScale(3);
         this.setCircle(17, 53, 53);

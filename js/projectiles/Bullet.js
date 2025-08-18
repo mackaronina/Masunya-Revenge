@@ -1,13 +1,14 @@
 import PhysicObject from '../PhysicObject.js';
+import config from '../config.js';
 
 export default class Bullet extends PhysicObject {
     constructor(scene) {
         super(scene, 0, 0, 'bullet');
-        this.defaultSpeed = 4500;
+        this.defaultSpeed = config.bullet.speed;
         this.setOrigin(0.5);
         this.setCircle(2, 7, 7);
         this.setScale(3);
-        this.depth = 16;
+        this.depth = config.depth.bullet;
         this.startTime = scene.time.now;
         this.scene.physics.add.collider(this, this.scene.walls, () => {
             if (this.body.bounce.x === 0) this.disableBody(true, true);

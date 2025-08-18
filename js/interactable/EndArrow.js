@@ -1,4 +1,5 @@
 import PhysicObject from '../PhysicObject.js';
+import config from '../config.js';
 
 export default class EndArrow extends PhysicObject {
     constructor(scene, x, y, angle) {
@@ -11,7 +12,7 @@ export default class EndArrow extends PhysicObject {
         this.arrow = this.scene.physics.add.sprite(this.x, this.y, 'arrow');
         this.arrow.setOrigin(0.5);
         this.arrow.setScale(3);
-        this.arrow.depth = 19;
+        this.arrow.depth = config.depth.arrow;
         this.arrow.visible = false;
         this.arrow.angle = angle;
 

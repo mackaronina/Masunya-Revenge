@@ -1,11 +1,12 @@
 import Enemy from './Enemy.js';
 import BloodParticle from './BloodParticle.js';
 import WeaponHands from '../weapons/WeaponHands.js';
+import config from '../config.js';
 
 export default class Chaos extends Enemy {
     constructor(scene, x, y, angle, pattern) {
         super(scene, x, y, new WeaponHands(scene), angle, pattern);
-        this.health = 3;
+        this.health = config.chaos.health;
     }
 
     static createAnims(scene) {

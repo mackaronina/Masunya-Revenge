@@ -1,4 +1,5 @@
 import Bullet from './Bullet.js';
+import config from '../config.js';
 
 export default class Grenade extends Bullet {
     constructor(scene) {
@@ -6,9 +7,9 @@ export default class Grenade extends Bullet {
         this.setTexture('grenade');
         this.setCircle(10, 25, 25);
         this.setScale(3);
-        this.defaultSpeed = 2000;
-        this.explosionTime = 1500;
-        this.countBullets = 32;
+        this.defaultSpeed = config.grenade.speed;
+        this.explosionTime = config.grenade.explosionTime;
+        this.countBullets = config.grenade.countBullets;
         this.sound = this.scene.sound.add('explosion_sound', {loop: false, volume: 0.5});
     }
 

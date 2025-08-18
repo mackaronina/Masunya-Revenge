@@ -1,5 +1,6 @@
 import WeaponDrop from './WeaponDrop.js';
 import MeleeHitbox from '../projectiles/MeleeHitbox.js';
+import config from '../config.js';
 
 export default class Weapon {
     constructor({
@@ -10,7 +11,7 @@ export default class Weapon {
                     isSemi = true,
                     isAuto = false,
                     isMelee = false,
-                    reactionTime = 400,
+                    reactionTime = config.reactionTime,
                     cooldown,
                     offset = 0,
                     soundName,

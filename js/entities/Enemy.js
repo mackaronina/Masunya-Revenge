@@ -1,5 +1,6 @@
 import Entity from './Entity.js';
 import PatrolCircle from './PatrolCircle.js';
+import config from '../config.js';
 
 export default class Enemy extends Entity {
     constructor(scene, x, y, weapon, angle, pattern) {
@@ -12,12 +13,6 @@ export default class Enemy extends Entity {
         this.agro = false;
         this.dir = Phaser.Math.DegToRad(angle);
         this.patrolCircle = new PatrolCircle(this);
-        /*
-        PATTERNS:
-        'patrol'
-        'random'
-        'stand'
-        */
         this.setCircle(19, 51, 51);
         this.scene.physics.add.collider(this, this.scene.playerBullets, (_, bulletHit) => this.bulletCallback(bulletHit));
         this.scene.physics.add.overlap(this, this.scene.playerHitboxes, (_, meleeHit) => this.meleeCallback(meleeHit));
@@ -84,7 +79,7 @@ export default class Enemy extends Entity {
             x: path[1].x * 3,
             y: path[1].y * 3,
         }) : Phaser.Math.Angle.BetweenPoints(this, this.scene.player);
-        const vec = this.scene.physics.velocityFromRotation(angle, this.entitySpeed);
+        const vec = this.scene.physics.velocityFromRotation(angle, this.runSpeed);
         this.setVelocity(vec.x, vec.y);
         this.rotation = angle;
         this.drawPath(path);
@@ -127,8 +122,8 @@ export default class Enemy extends Entity {
         if (this.agro)
             this.moveToPlayer();
         else {
-            if (this.pattern === 'patrol' || this.pattern === 'random') {
-                const vec = this.scene.physics.velocityFromRotation(this.dir, this.entitySlowSpeed);
+            if (this.pattern === config.movingPattern.patrol || this.pattern === config.movingPattern.random) {
+                const vec = this.scene.physics.velocityFromRotation(this.dir, this.stepSpeed);
                 this.setVelocity(vec.x, vec.y);
                 this.rotation = this.body.angle;
             }
@@ -143,12 +138,12 @@ export default class Enemy extends Entity {
         } else {
             const body = this.die(0, meleeHit, true);
             this.agro = true;
-            this.pattern = 'stand';
+            this.pattern = config.movingPattern.stand;
             this.anims.stop();
             this.scene.time.delayedCall(3000, () => {
                 if (body.isAlive) {
                     this.enableBody(true, body.x, body.y, true, true);
-                    body.allDestroy();
+                    body.destroy();
                 }
             });
         }

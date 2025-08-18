@@ -1,11 +1,12 @@
 import PhysicObject from '../PhysicObject.js';
+import config from '../config.js';
 
 export default class Interactable extends PhysicObject {
     constructor(scene, x, y, sprite) {
         super(scene, x, y, sprite);
         this.setOrigin(0.5);
         this.setScale(3);
-        this.depth = 11;
+        this.depth = config.depth.interactable;
         this.postFX.addShine(1.3, 5, 10);
         this.visible = false;
         this.scene.physics.add.overlap(this, this.scene.player, () => {

@@ -1,4 +1,5 @@
 import PhysicObject from '../PhysicObject.js';
+import config from '../config.js';
 
 export default class PointerArrow extends PhysicObject {
     constructor(scene) {
@@ -6,7 +7,7 @@ export default class PointerArrow extends PhysicObject {
         this.setOrigin(0.5);
         this.setScale(3 / this.scene.cameras.main.zoom);
         this.setVisible(false);
-        this.depth = 99;
+        this.depth = config.depth.interface;
         this.dist = 180;
         this.scene.tweens.add({
             delay: 60,

@@ -1,19 +1,18 @@
 import PhysicObject from '../PhysicObject.js';
+import config from '../config.js';
 
 export default class Reticle extends PhysicObject {
     constructor(scene) {
         super(scene, 0, 0, 'crosshair');
         this.setOrigin(0.5);
         this.setScale(3 / this.scene.cameras.main.zoom);
-        this.x = this.scene.player.x + 1;
-        this.y = this.scene.player.y + 1;
         this.scene.time.delayedCall(50, () => {
             this.x = this.scene.player.x + 1;
             this.y = this.scene.player.y + 1;
         });
-        this.depth = 100;
+        this.depth = config.depth.cursor;
         this.scene.input.on('pointermove', (pointer) => {
-            const coef = 1.25;
+            const coef = config.mouseSensitivity;
             if (!this.active || !this.scene) return;
             if (Math.abs(this.scene.cameras.main.worldView.centerX
                 - (this.x + pointer.movementX * coef)) < this.scene.cameras.main.displayWidth / 2)

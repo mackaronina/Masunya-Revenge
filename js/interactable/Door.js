@@ -1,11 +1,12 @@
 import PhysicObject from '../PhysicObject.js';
+import config from '../config.js';
 
 export default class Door extends PhysicObject {
     constructor(scene, x, y, orientation, frame) {
         super(scene, x, y, `door_${orientation}`, frame);
         this.setOrigin(0);
         this.setScale(3);
-        this.depth = 30;
+        this.depth = config.depth.doors;
         this.openTime = 0;
         this.colliders = [];
         this.scene.physics.add.overlap(this, this.scene.player, () => this.overlapEntity());

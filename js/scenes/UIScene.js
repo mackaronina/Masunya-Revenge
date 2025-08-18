@@ -2,6 +2,7 @@ import MenuPic from '../interface/MenuPic.js';
 import MenuButton from '../interface/MenuButton.js';
 import Cursor from '../interface/Cursor.js';
 import BaseScene from './BaseScene.js';
+import config from '../config.js';
 
 export default class UIScene extends BaseScene {
     constructor() {
@@ -33,14 +34,14 @@ export default class UIScene extends BaseScene {
         );
         this.ammoInfoText.setScrollFactor(0);
         this.ammoInfoText.setPadding(12, 12, 12, 12);
-        this.ammoInfoText.depth = 99;
+        this.ammoInfoText.depth = config.depth.interface;
         this.grenadesInteractText = this.add.text(
             this.game.config.width / 2,
-            this.game.config.height - 65,
+            this.game.config.height - 60,
             '',
             {
-                fontFamily: 'Comic Sans MS',
-                fontSize: 70,
+                fontFamily: 'Soup of justice',
+                fontSize: 90,
                 fontStyle: 'normal',
                 color: '#f5f5f5',
                 align: 'center'
@@ -48,7 +49,7 @@ export default class UIScene extends BaseScene {
         );
         this.grenadesInteractText.setScrollFactor(0);
         this.grenadesInteractText.setOrigin(0.5);
-        this.grenadesInteractText.depth = 99;
+        this.grenadesInteractText.depth = config.depth.interface;
         this.gameScene = this.scene.get('game_scene');
         this.gameScene.events.on('ui_level_cleared', () => this.levelCleared());
         this.gameScene.events.on('ui_death_screen', () => this.deathScreen());
@@ -68,15 +69,7 @@ export default class UIScene extends BaseScene {
 
     showNotepad() {
         const notepad = new MenuPic(this, 540, 'notepad');
-        const text = `ЗАМЕТКИ
-1. Рассмотреть возможность платить
-зарплату пилком
-
-2. Узнать кто съел всю питсу в
-столовой
-
-3. Перенести сейф с рецептом в 
-подвал, так надёжнее`
+        const text = config.text.ru.notepad;
         const textObj = this.add.text(
             notepad.x - notepad.displayWidth / 2 + 12,
             notepad.y - notepad.displayHeight / 2 + 60,
@@ -130,7 +123,7 @@ export default class UIScene extends BaseScene {
         else
             this.ammoInfoText.setText('');
         if (this.gameScene.grenadesBox && this.gameScene.grenadesBox.isCanInteract())
-            this.grenadesInteractText.setText('ПКМ - Взять гранату');
+            this.grenadesInteractText.setText(config.text.ru.interactGrenadesBox);
         else
             this.grenadesInteractText.setText('');
     }

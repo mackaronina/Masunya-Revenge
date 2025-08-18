@@ -3,6 +3,7 @@ import MenuButton from '../interface/MenuButton.js';
 import BaseScene from './BaseScene.js';
 import MenuMasunyaSpin from '../interface/MenuMasunyaSpin.js';
 import MenuPic from '../interface/MenuPic.js';
+import config from '../config.js';
 
 export default class MenuScene extends BaseScene {
     constructor() {
@@ -47,9 +48,9 @@ export default class MenuScene extends BaseScene {
             background.fillStyle(0x000000);
             background.fillRect(-50, -50, this.game.config.width + 100, this.game.config.height + 100);
             background.setScrollFactor(0);
-            const text = 'город Северсталь, завод пилка\n\nВ этот день Масюня пошла не только против некоарков,\nно и всего мира';
+            const text = config.text.ru.intro;
             const textObj = this.add.text(this.game.config.width / 2, this.game.config.height / 2, '', {
-                fontFamily: 'Comic Sans MS',
+                fontFamily: 'Soup of justice',
                 fontSize: 45,
                 fontStyle: 'normal',
                 color: '#f5f5f5',

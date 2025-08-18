@@ -1,4 +1,5 @@
 import PhysicObject from '../PhysicObject.js';
+import config from '../config.js';
 
 export default class PatrolCircle extends PhysicObject {
     constructor(owner) {
@@ -10,9 +11,9 @@ export default class PatrolCircle extends PhysicObject {
         this.setScale(3);
         this.owner = owner;
         if (this.owner.angle === 0)
-            this.type = 1;
+            this.patrolDirection = 1;
         else
-            this.type = 2;
+            this.patrolDirection = 2;
         this.scene.physics.add.collider(this, this.scene.walls, () => this.collideCallback());
         this.scene.physics.add.collider(this, this.scene.glass, () => this.collideCallback());
         this.scene.physics.add.collider(this, this.scene.brokenglass, () => this.collideCallback());
@@ -20,8 +21,8 @@ export default class PatrolCircle extends PhysicObject {
     }
 
     collideCallback() {
-        if (this.owner.pattern === 'patrol') {
-            if (this.type === 1) {
+        if (this.owner.pattern === config.movingPattern.patrol) {
+            if (this.patrolDirection === 1) {
                 if (this.body.blocked.right)
                     this.owner.dir = Math.PI / 2;
                 else if (this.body.blocked.down)
@@ -40,7 +41,7 @@ export default class PatrolCircle extends PhysicObject {
                 else if (this.body.blocked.up)
                     this.owner.dir = Math.PI;
             }
-        } else if (this.owner.pattern === 'random') {
+        } else if (this.owner.pattern === config.movingPattern.random) {
             let newdir;
             while (true) {
                 let deviation = Phaser.Math.Angle.Random() / 2;

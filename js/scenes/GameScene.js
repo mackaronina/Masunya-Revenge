@@ -56,6 +56,7 @@ export default class GameScene extends BaseScene {
         this.load.audio('main_ost', 'assets/audio/main_ost.mp3');
         this.load.audio('peaceful_ost', 'assets/audio/peaceful_ost.mp3');
         this.load.audio('glass_sound', 'assets/audio/glass.mp3');
+        this.load.audio('paper_sound', 'assets/audio/paper.mp3');
         this.load.tilemapTiledJSON('tilemap1', 'assets/maps/level1.json');
         this.load.tilemapTiledJSON('tilemap2', 'assets/maps/level2.json');
         this.load.tilemapTiledJSON('tilemap3', 'assets/maps/level3.json');
@@ -73,17 +74,20 @@ export default class GameScene extends BaseScene {
         this.ending = false;
         this.interactable = null;
         this.grenadesBox = null;
-
-        this.cameras.main.zoom = 0.8;
-        this.drawBackground();
         this.levelCleared = false;
         this.currentTarget = null;
-        this.mainost = this.sound.add('main_ost', {loop: true, volume: 0});
+
+        this.cameras.main.zoom = 0.8;
+
+        this.drawBackground();
+
+        this.mainost = this.sound.add('main_ost', {loop: true, volume: 1});
         this.peacefulost = this.sound.add('peaceful_ost', {loop: true, volume: 1});
         this.deathost = this.sound.add('death_ost', {loop: true, volume: 1});
-        this.mainost.play();
-        this.tweens.add({targets: this.mainost, volume: 1, duration: 1500});
         this.glassSound = this.sound.add('glass_sound', {loop: false, volume: 0.1});
+        this.paperSound = this.sound.add('paper_sound', {loop: false, volume: 2});
+
+        this.mainost.play();
 
         this.inputKeys = this.input.keyboard.addKeys({
             shft: Phaser.Input.Keyboard.KeyCodes.SHIFT
@@ -145,8 +149,8 @@ export default class GameScene extends BaseScene {
         Chaos.createAnims(this);
         Grenade.createAnims(this);
 
-        this.enemyBullets = this.physics.add.group({classType: Bullet, immovable: true, maxCount: 100});
-        this.playerBullets = this.physics.add.group({classType: Bullet, immovable: true, maxCount: 100});
+        this.enemyBullets = this.physics.add.group({classType: Bullet, immovable: true});
+        this.playerBullets = this.physics.add.group({classType: Bullet, immovable: true});
         this.grenades = this.physics.add.group({classType: Grenade});
         this.enemies = this.physics.add.group({classType: Enemy, immovable: true});
         this.droppedWeapons = this.physics.add.group({classType: WeaponDrop});
@@ -180,29 +184,28 @@ export default class GameScene extends BaseScene {
             const pointType = point.properties.find(p => p.name === 'pointType').value;
             const coords = {
                 center: {x: point.x * 3 + 24, y: point.y * 3 - 24},
-                rightBottomCorner: {x: point.x * 3 + 48, y: point.y * 3}
+                rightBottom: {x: point.x * 3 + 48, y: point.y * 3},
+                rightMiddle: {x: point.x * 3 + 48, y: point.y * 3 - 24},
             }
             if (pointType === 'start') {
                 this.player.x = coords.center.x;
                 this.player.y = coords.center.y;
             } else if (pointType === 'end') {
                 const angle = point.properties.find(p => p.name === 'angle').value;
-                this.endArrow = new EndArrow(this, coords.rightBottomCorner.x, coords.rightBottomCorner.y + 24, angle);
+                this.endArrow = new EndArrow(this, coords.rightBottom.x, coords.rightBottom.y + 24, angle);
             } else if (pointType === 'controls') {
                 const text = config.text.ru.controls;
                 this.add.text(coords.center.x, coords.center.y, text, {
-                    fontFamily: 'Soup of justice',
+                    fontFamily: 'Comic Sans MS',
                     fontSize: 45,
                     fontStyle: 'normal',
                     color: '#f5f5f5',
                     align: 'left'
                 }).depth = 99;
             } else if (pointType === 'interactable') {
-                const interactableType = point.properties.find(p => p.name === 'interactableType').value;
-                if (interactableType === 'table')
-                    this.interactable = new TableInteractable(this, coords.rightBottomCorner.x, coords.rightBottomCorner.y);
+                this.interactable = new TableInteractable(this, coords.rightMiddle.x, coords.rightMiddle.y);
             } else if (pointType === 'grenades_box')
-                this.grenadesBox = new GrenadesBox(this, coords.rightBottomCorner.x, coords.rightBottomCorner.y);
+                this.grenadesBox = new GrenadesBox(this, coords.rightBottom.x, coords.rightBottom.y);
         });
 
         map.getObjectLayer('doors').objects.forEach(door => {
@@ -218,26 +221,45 @@ export default class GameScene extends BaseScene {
         this.cameras.main.startFollow(this.cursor, true, 0.1, 0.1);
 
         this.addPixelEffect(true);
-        this.addVolumeFade(false);
+        this.addAllSoundFade({decrease: false});
     }
 
-    addVolumeFade(decrease = true) {
+    showRecipe() {
+        this.pause();
+        this.events.emit('ui_show_recipe');
+        this.addSoundFade({sounds: [this.mainost, this.peacefulost]});
+    }
+
+    startEnding() {
+        this.removeSound();
+        this.scene.stop('game_scene');
+        this.scene.stop('ui_scene');
+        this.scene.start('ending_scene', {deathCount: this.deathCount});
+    }
+
+    addSoundFade({sounds, decrease = true, onComplete = null, duration = 1500}) {
+        this.tweens.add({
+            targets: sounds,
+            volume: decrease ? 0.0 : 1.0,
+            duration: duration,
+            onComplete: onComplete
+        });
+    }
+
+    addAllSoundFade({decrease = true, onComplete = null, duration = 500}) {
         this.game.sound.volume = decrease ? 1.0 : 0.0;
         this.tweens.add({
             targets: this.game.sound,
             volume: decrease ? 0.0 : 1.0,
-            duration: 500
+            duration: duration,
+            onComplete: onComplete
         });
     }
 
     pause() {
-        this.blurEffect = this.cameras.main.postFX.addBlur(2, 2, 2, 1);
-        this.scene.pause();
-    }
-
-    resume() {
-        this.scene.resume();
-        this.cameras.main.postFX.remove(this.blurEffect);
+        this.cameras.main.stopFollow();
+        this.cursor.destroy();
+        this.player.active = false;
     }
 
     addPixelEffect(decrease = true) {
@@ -305,20 +327,23 @@ export default class GameScene extends BaseScene {
     }
 
     deathScreen() {
-        this.tweens.add({targets: this.mainost, volume: 0, duration: 2000});
-        this.tweens.add({targets: this.peacefulost, volume: 0, duration: 2000});
-        this.time.delayedCall(2000, () => {
-            this.events.emit('ui_death_screen');
-            this.cameras.main.stopFollow();
-            this.cursor.destroy();
+        this.addSoundFade({sounds: [this.mainost, this.peacefulost]});
+        this.time.delayedCall(1500, () => {
+            this.pause();
+            this.events.emit('ui_show_death_screen');
             this.deathost.play();
         });
     }
 
     levelEnd() {
-        this.tweens.add({targets: this.mainost, volume: 0, duration: 1500, onComplete: () => this.peacefulost.play()});
+        this.addSoundFade({
+            sounds: [this.mainost],
+            onComplete: () => {
+                this.peacefulost.play()
+            }
+        });
         this.levelCleared = true;
-        this.events.emit('ui_level_cleared');
+        this.events.emit('ui_show_level_cleared');
         this.time.delayedCall(2000, () => {
             if (this.interactable)
                 this.activateInteractable();
@@ -340,11 +365,10 @@ export default class GameScene extends BaseScene {
     restartScene(next = false) {
         if (this.ending) return;
         this.ending = true;
-        this.addVolumeFade(true);
+        this.addAllSoundFade({decrease: true});
         this.addPixelEffect(false);
         this.time.delayedCall(520, () => {
-            this.game.sound.stopAll();
-            this.game.sound.removeAll();
+            this.removeSound();
             if (next) {
                 if (this.level === 4) this.scene.restart({level: 1, deathCount: 0})
                 else this.scene.restart({level: this.level + 1, deathCount: this.deathCount});

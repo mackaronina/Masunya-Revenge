@@ -1,3 +1,5 @@
+import config from '../config.js';
+
 export default class BaseScene extends Phaser.Scene {
     constructor(params) {
         super(params);
@@ -27,10 +29,13 @@ export default class BaseScene extends Phaser.Scene {
     create() {
     }
 
-    drawBackground() {
+    drawBackground(black = false) {
         const background = this.add.graphics();
-        background.depth = 0;
-        background.fillGradientStyle(0x8e44ad, 0x8e44ad, 0x2980b9, 0x2980b9);
+        background.depth = config.depth.background;
+        if (black)
+            background.fillStyle(0x000000);
+        else
+            background.fillGradientStyle(0x8e44ad, 0x8e44ad, 0x2980b9, 0x2980b9);
         background.fillRect(
             this.cameras.main.centerX - this.cameras.main.displayWidth / 2 - 50,
             this.cameras.main.centerY - this.cameras.main.displayHeight / 2 - 50,
@@ -38,6 +43,11 @@ export default class BaseScene extends Phaser.Scene {
             this.cameras.main.displayHeight + 100
         );
         background.setScrollFactor(0);
+    }
+
+    removeSound() {
+        this.game.sound.stopAll();
+        this.game.sound.removeAll();
     }
 
     update(time, delta) {

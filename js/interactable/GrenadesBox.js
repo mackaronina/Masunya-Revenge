@@ -10,7 +10,7 @@ export default class GrenadesBox extends PhysicObject {
         this.depth = config.depth.grenadesBox;
         this.givenGrenades = 0;
         this.maxGrenades = config.grenadesBox.maxGrenades;
-        this.postFX.addShine(0.5, 0.3, 5);
+        this.postFX.addShine(1, 0.3, 5);
     }
 
     static preload(scene) {

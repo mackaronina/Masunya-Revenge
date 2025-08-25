@@ -2,14 +2,14 @@ import GameScene from './scenes/GameScene.js'
 import MenuScene from './scenes/MenuScene.js';
 import UIScene from './scenes/UIScene.js';
 import config from './config.js';
+import EndingScene from './scenes/EndingScene.js';
 
 const ratio = Math.max(window.screen.width / window.screen.height, window.screen.height / window.screen.width);
 const DEFAULT_HEIGHT = 1080;
 const DEFAULT_WIDTH = Math.round(ratio * DEFAULT_HEIGHT);
 
 const phaserConfig = {
-    type: Phaser.AUTO,
-    powerPreference: 'high-performance',
+    type: Phaser.WEBGL,
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
@@ -28,7 +28,7 @@ const phaserConfig = {
     },
     pixelArt: true,
     disableContextMenu: true,
-    scene: [MenuScene, GameScene, UIScene]
+    scene: [MenuScene, GameScene, EndingScene, UIScene]
 };
 
 const game = new Phaser.Game(phaserConfig);

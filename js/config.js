@@ -1,6 +1,6 @@
 const config = {
     debug: true,
-    startLevel: 4,
+    startLevel: 1,
     reactionTime: 400,
     mouseSensitivity: 1.25,
     bullet: {
@@ -24,16 +24,17 @@ const config = {
     depth: {
         background: -1,
         floor: 0,
-        blood: -1,
+        blood: 2,
         furniture: 10,
         brokenGlass: 11,
         interactable: 11,
-        deadBody: -1,
+        deadBody: 12,
         droppedWeapon: 13,
         entity: 15,
         bullet: 16,
         arrow: 19,
         glass: 20,
+        door: 30,
         walls: 30,
         grenadesBox: 31,
         interface: 99,
@@ -45,12 +46,12 @@ const config = {
         stand: 'stand'
     },
     brokenGlassTiles: {
-        100: 101,
-        132: 133,
+        124: 125,
         164: 165,
-        129: 161,
-        130: 162,
-        131: 163
+        204: 205,
+        161: 201,
+        162: 202,
+        163: 203
     },
     text: {
         ru: {

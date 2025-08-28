@@ -6,7 +6,7 @@ export default class Door extends PhysicObject {
         super(scene, x, y, `door_${orientation}`, frame);
         this.setOrigin(0);
         this.setScale(3);
-        this.depth = config.depth.doors;
+        this.depth = config.depth.door;
         this.openTime = 0;
         this.colliders = [];
         this.scene.physics.add.overlap(this, this.scene.player, () => this.overlapEntity());

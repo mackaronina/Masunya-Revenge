@@ -53,6 +53,6 @@ export default class Grenade extends Bullet {
         });
         this.scene.cameras.main.shake(200 / this.scene.cameras.main.zoom, 0.02 / this.scene.cameras.main.zoom, true);
         this.sound.play();
-        //if (this.isPlayer) this.scene.makeNoise(this);
+        if (this.isPlayer) this.scene.makeNoise(this);
     }
 }

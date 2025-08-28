@@ -50,7 +50,7 @@ export default class MenuScene extends BaseScene {
             background.setScrollFactor(0);
             const text = config.text.ru.intro;
             const textObj = this.add.text(this.game.config.width / 2, this.game.config.height / 2, '', {
-                fontFamily: 'Comic Sans MS',
+                fontFamily: 'Soup',
                 fontSize: 45,
                 fontStyle: 'normal',
                 color: '#f5f5f5',

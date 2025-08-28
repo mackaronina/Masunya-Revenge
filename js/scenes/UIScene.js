@@ -42,7 +42,7 @@ export default class UIScene extends BaseScene {
             this.game.config.height - 60,
             '',
             {
-                fontFamily: 'Comic Sans MS',
+                fontFamily: 'Soup',
                 fontSize: 90,
                 fontStyle: 'normal',
                 color: '#f5f5f5',

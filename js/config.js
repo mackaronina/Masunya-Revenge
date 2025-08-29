@@ -1,6 +1,6 @@
 const config = {
     debug: true,
-    startLevel: 1,
+    startLevel: 4,
     reactionTime: 400,
     mouseSensitivity: 1.25,
     bullet: {

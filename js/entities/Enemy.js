@@ -86,7 +86,7 @@ export default class Enemy extends Entity {
     }
 
     drawPath(path) {
-        if (!path) return
+        if (!config.debug || !path) return;
         const graphics = this.scene.graphics;
         graphics.clear();
         graphics.lineStyle(2, 0xff0000, 1);
@@ -143,7 +143,7 @@ export default class Enemy extends Entity {
             this.scene.time.delayedCall(3000, () => {
                 if (body.isAlive) {
                     this.enableBody(true, body.x, body.y, true, true);
-                    body.destroy();
+                    body.allDestroy();
                 }
             });
         }

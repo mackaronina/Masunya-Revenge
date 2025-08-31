@@ -38,7 +38,7 @@ export default class EndingScene extends BaseScene {
             110,
             `${config.text.ru.deathCount} 0`,
             {
-                fontFamily: 'Comic Sans MS',
+                fontFamily: 'Soup',
                 fontSize: 100,
                 fontStyle: 'normal',
                 color: '#f5f5f5',

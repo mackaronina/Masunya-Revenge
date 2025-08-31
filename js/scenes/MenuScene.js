@@ -68,7 +68,7 @@ export default class MenuScene extends BaseScene {
                 },
                 loop: true
             });
-            this.time.delayedCall(1000, () => {
+            this.time.delayedCall(500, () => {
                 this.input.on('pointerdown', () => {
                     this.game.sound.stopAll();
                     this.game.sound.removeAll();

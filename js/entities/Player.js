@@ -173,7 +173,7 @@ export default class Player extends Entity {
     update() {
         this.prev_x = this.x;
         this.prev_y = this.y;
-        if (this.fatalityAnim || !this.active) return;
+        if (this.fatalityAnim) return;
         super.update();
 
         this.moveByInput();

@@ -14,6 +14,7 @@ export default class Bullet extends PhysicObject {
             if (this.body.bounce.x === 0) this.disableBody(true, true);
         });
         this.scene.physics.add.overlap(this, this.scene.glass, (a, glassHit) => this.scene.destroyGlass(glassHit));
+        this.disableBody(true, true);
     }
 
     static preload(scene) {
@@ -34,8 +35,9 @@ export default class Bullet extends PhysicObject {
     }
 
     update(time) {
-        if (time - this.startTime >= 3000) this.disableBody(true, true);
-        if (this.active) {
+        if (time - this.startTime >= 3000)
+            this.disableBody(true, true);
+        else {
             const dist = Phaser.Math.Distance.BetweenPoints(this, this.shooter);
             if (dist >= this.offset) this.visible = true;
         }

@@ -11,8 +11,7 @@ export default class WeaponDrop extends PhysicObject {
         this.depth = config.depth.droppedWeapon;
         this.scene.physics.add.collider(this, this.scene.walls);
         this.scene.physics.add.collider(this, this.scene.glass);
-        this.postFX.addShine(0.5, 0.3, 5);
-
+        //this.postFX.addShine(0.5, 0.3, 5);
     }
 
     static preload(scene) {

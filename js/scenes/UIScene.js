@@ -73,7 +73,7 @@ export default class UIScene extends BaseScene {
 
     showRecipe() {
         const recipe = new MenuPic(this, 540, 'recipe');
-        this.time.delayedCall(1000, () => {
+        this.time.delayedCall(500, () => {
             const event = this.input.on('pointerdown', () => {
                 event.destroy();
                 recipe.setFrame(1);

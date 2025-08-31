@@ -11,6 +11,7 @@ export default class Grenade extends Bullet {
         this.explosionTime = config.grenade.explosionTime;
         this.countBullets = config.grenade.countBullets;
         this.sound = this.scene.sound.add('explosion_sound', {loop: false, volume: 0.5});
+        this.disableBody(true, true);
     }
 
     static preload(scene) {

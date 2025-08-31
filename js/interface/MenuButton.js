@@ -25,7 +25,6 @@ export default class MenuButton extends MenuPic {
     }
 
     update() {
-        if (!this.active) return;
         if (this.checkReticle())
             this.setScale(1.05);
         else

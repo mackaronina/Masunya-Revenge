@@ -149,9 +149,9 @@ export default class GameScene extends BaseScene {
         Chaos.createAnims(this);
         Grenade.createAnims(this);
 
-        this.enemyBullets = this.physics.add.group({classType: Bullet, immovable: true});
-        this.playerBullets = this.physics.add.group({classType: Bullet, immovable: true});
-        this.grenades = this.physics.add.group({classType: Grenade});
+        this.enemyBullets = this.physics.add.group({classType: Bullet, immovable: true, quantity: 100, max: 100});
+        this.playerBullets = this.physics.add.group({classType: Bullet, immovable: true, quantity: 100, max: 100});
+        this.grenades = this.physics.add.group({classType: Grenade, quantity: 10, max: 10});
         this.enemies = this.physics.add.group({classType: Enemy, immovable: true});
         this.droppedWeapons = this.physics.add.group({classType: WeaponDrop});
         this.enemyHitboxes = this.physics.add.group({classType: MeleeHitbox});

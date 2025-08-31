@@ -9,7 +9,7 @@ const DEFAULT_HEIGHT = 1080;
 const DEFAULT_WIDTH = Math.round(ratio * DEFAULT_HEIGHT);
 
 const phaserConfig = {
-    type: Phaser.WEBGL,
+    type: Phaser.AUTO,
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,

@@ -12,6 +12,7 @@ export default class BloodParticle extends PhysicObject {
         this.setScale(scales[spriteIndex]);
         this.rotation = Phaser.Math.Angle.Random();
         this.depth = config.depth.blood;
+        this.disableBody(true, false);
     }
 
     static preload(scene) {

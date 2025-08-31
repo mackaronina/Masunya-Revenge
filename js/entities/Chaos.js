@@ -6,7 +6,7 @@ import config from '../config.js';
 export default class Chaos extends Enemy {
     constructor(scene, x, y, angle, pattern) {
         super(scene, x, y, new WeaponHands(scene), angle, pattern);
-        this.health = config.chaos.health;
+        this.health = config.enemy.chaos.health;
     }
 
     static createAnims(scene) {

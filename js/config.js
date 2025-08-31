@@ -1,6 +1,6 @@
 const config = {
     debug: false,
-    startLevel: 4,
+    startLevel: 1,
     reactionTime: 400,
     mouseSensitivity: 1.25,
     bullet: {
@@ -11,8 +11,16 @@ const config = {
         explosionTime: 1500,
         countBullets: 32
     },
-    chaos: {
-        health: 3
+    enemy: {
+        standTime: 3000,
+        movingPattern: {
+            patrol: 'patrol',
+            random: 'random',
+            stand: 'stand'
+        },
+        chaos: {
+            health: 3
+        }
     },
     entity: {
         runSpeed: 1000,
@@ -40,11 +48,6 @@ const config = {
         interface: 99,
         cursor: 100
     },
-    movingPattern: {
-        patrol: 'patrol',
-        random: 'random',
-        stand: 'stand'
-    },
     brokenGlassTiles: {
         124: 125,
         164: 165,
@@ -55,6 +58,12 @@ const config = {
     },
     text: {
         ru: {
+            level: {
+                1: 'Склад',
+                2: 'Главный цех',
+                3: '2 Этаж',
+                4: 'Подвал'
+            },
             interactGrenadesBox: 'ПКМ - Взять гранату',
             controls: `WASD - Движение
 LMB - Стрельба/удар

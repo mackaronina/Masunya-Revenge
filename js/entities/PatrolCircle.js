@@ -21,7 +21,7 @@ export default class PatrolCircle extends PhysicObject {
     }
 
     collideCallback() {
-        if (this.owner.pattern === config.movingPattern.patrol) {
+        if (this.owner.pattern === config.enemy.movingPattern.patrol) {
             if (this.patrolDirection === 1) {
                 if (this.body.blocked.right)
                     this.owner.dir = Math.PI / 2;
@@ -41,7 +41,7 @@ export default class PatrolCircle extends PhysicObject {
                 else if (this.body.blocked.up)
                     this.owner.dir = Math.PI;
             }
-        } else if (this.owner.pattern === config.movingPattern.random) {
+        } else if (this.owner.pattern === config.enemy.movingPattern.random) {
             let newdir;
             while (true) {
                 let deviation = Phaser.Math.Angle.Random() / 2;

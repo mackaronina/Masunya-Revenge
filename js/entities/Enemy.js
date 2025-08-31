@@ -122,7 +122,7 @@ export default class Enemy extends Entity {
         if (this.agro)
             this.moveToPlayer();
         else {
-            if (this.pattern === config.movingPattern.patrol || this.pattern === config.movingPattern.random) {
+            if (this.pattern === config.enemy.movingPattern.patrol || this.pattern === config.enemy.movingPattern.random) {
                 const vec = this.scene.physics.velocityFromRotation(this.dir, this.stepSpeed);
                 this.setVelocity(vec.x, vec.y);
                 this.rotation = this.body.angle;
@@ -138,9 +138,9 @@ export default class Enemy extends Entity {
         } else {
             const body = this.die(0, meleeHit, true);
             this.agro = true;
-            this.pattern = config.movingPattern.stand;
+            this.pattern = config.enemy.movingPattern.stand;
             this.anims.stop();
-            this.scene.time.delayedCall(3000, () => {
+            this.scene.time.delayedCall(config.enemy.standTime, () => {
                 if (body.isAlive) {
                     this.enableBody(true, body.x, body.y, true, true);
                     body.allDestroy();

@@ -58,6 +58,37 @@ export default class UIScene extends BaseScene {
         this.gameScene.events.on('ui_show_level_cleared', () => this.showLevelCleared());
         this.gameScene.events.on('ui_show_death_screen', () => this.showDeathScreen());
         this.gameScene.events.on('ui_show_recipe', () => this.showRecipe());
+        this.gameScene.events.on('ui_show_current_level', () => this.showCurrentLevel());
+    }
+
+    showCurrentLevel() {
+        if (!config.text.ru.level[this.gameScene.level])
+            return;
+        const levelText = this.add.text(
+            this.game.config.width / 2,
+            60,
+            config.text.ru.level[this.gameScene.level],
+            {
+                fontFamily: 'Soup',
+                fontSize: 90,
+                fontStyle: 'normal',
+                color: '#f5f5f5',
+                align: 'center'
+            }
+        );
+        levelText.setScrollFactor(0);
+        levelText.setOrigin(0.5);
+        levelText.depth = config.depth.interface;
+        this.tweens.add({
+            targets: levelText,
+            alpha: 0,
+            delay: 3000,
+            duration: 1000,
+            onComplete: () => {
+                levelText.destroy();
+            }
+        });
+        delete config.text.ru.level[this.gameScene.level];
     }
 
     showDeathScreen() {

@@ -173,7 +173,7 @@ export default class GameScene extends BaseScene {
                 rifle: WeaponRifle,
                 shotgun: WeaponShotgun,
                 grenade: WeaponGrenade
-            }
+            };
             if (weapon === 'chaos')
                 this.enemies.add(new Chaos(this, enemy.x, enemy.y, angle, pattern));
             else
@@ -222,6 +222,8 @@ export default class GameScene extends BaseScene {
 
         this.addPixelEffect(true);
         this.addAllSoundFade({decrease: false});
+
+        this.events.emit('ui_show_current_level');
     }
 
     showRecipe() {

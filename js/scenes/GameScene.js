@@ -52,6 +52,7 @@ export default class GameScene extends BaseScene {
         WeaponRifle.preload(this);
         WeaponShotgun.preload(this);
         this.load.image('tileset', 'assets/images/tileset.png');
+        this.load.image('extruded_tileset', 'assets/images/extruded_tileset.png');
         this.load.audio('death_ost', 'assets/audio/death_ost.mp3');
         this.load.audio('main_ost', 'assets/audio/main_ost.mp3');
         this.load.audio('peaceful_ost', 'assets/audio/peaceful_ost.mp3');
@@ -94,8 +95,8 @@ export default class GameScene extends BaseScene {
         });
 
         const map = this.make.tilemap({key: `tilemap${this.level}`});
-        //const tileset = map.addTilesetImage('tileset', 'tileset', 16, 16, 1, 2);
-        const tileset = map.addTilesetImage('tileset', 'tileset', 16, 16);
+        //const tileset = map.addTilesetImage('tileset', 'tileset', 16, 16);
+        const tileset = map.addTilesetImage('tileset', 'extruded_tileset', 16, 16, 1, 2);
 
         const floor = map.createLayer('floor', tileset);
         floor.setScale(3);

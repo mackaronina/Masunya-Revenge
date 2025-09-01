@@ -33,6 +33,8 @@ const phaserConfig = {
 
 const game = new Phaser.Game(phaserConfig);
 
+navigator.keyboard.lock(['KeyW', 'KeyA', 'KeyS', 'KeyD']);
+
 game.canvas.style.cursor = 'none';
 game.canvas.addEventListener('mousedown', () => {
     game.scale.startFullscreen();

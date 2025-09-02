@@ -36,6 +36,7 @@ const game = new Phaser.Game(phaserConfig);
 game.canvas.style.cursor = 'none';
 
 game.canvas.addEventListener('mousedown', () => {
+    window.focus();
     game.scale.startFullscreen();
     game.input.mouse.requestPointerLock();
     game.input.keyboard.addCapture([87, 65, 83, 68, 32, 16]);

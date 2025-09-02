@@ -133,13 +133,13 @@ export default class Player extends Entity {
 
     moveByInput() {
         const playerVelocity = new Phaser.Math.Vector2();
-        if (this.scene.input.keyboard.checkDown(this.inputKeys.left))
+        if (this.inputKeys.left.isDown)
             playerVelocity.x = -1;
-        else if (this.scene.input.keyboard.checkDown(this.inputKeys.right))
+        else if (this.inputKeys.right.isDown)
             playerVelocity.x = 1;
-        if (this.scene.input.keyboard.checkDown(this.inputKeys.up))
+        if (this.inputKeys.up.isDown)
             playerVelocity.y = -1;
-        else if (this.scene.input.keyboard.checkDown(this.inputKeys.down))
+        else if (this.inputKeys.down.isDown)
             playerVelocity.y = 1;
         playerVelocity.normalize();
         playerVelocity.scale(this.runSpeed);

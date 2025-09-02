@@ -278,7 +278,6 @@ export default class GameScene extends BaseScene {
     }
 
     destroyGlass(glassTile) {
-        console.log(glassTile.index);
         if (!config.brokenGlassTiles[glassTile.index]) return;
         const newIndex = config.brokenGlassTiles[glassTile.index];
         this.glass.putTileAt(-1, glassTile.x, glassTile.y);

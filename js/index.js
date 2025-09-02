@@ -33,14 +33,11 @@ const phaserConfig = {
 
 const game = new Phaser.Game(phaserConfig);
 
-game.input.keyboard.addCapture([87, 65, 83, 68, 32, 16]);
-navigator.keyboard.lock(['KeyW', 'KeyA', 'KeyS', 'KeyD', 'Space', 'ShiftLeft', 'ShiftRight']);
-
 game.canvas.style.cursor = 'none';
 
 game.canvas.addEventListener('mousedown', () => {
     game.scale.startFullscreen();
-});
-game.canvas.addEventListener('mousedown', () => {
     game.input.mouse.requestPointerLock();
+    game.input.keyboard.addCapture([87, 65, 83, 68, 32, 16]);
+    navigator.keyboard.lock(['KeyW', 'KeyA', 'KeyS', 'KeyD', 'Space', 'ShiftLeft', 'ShiftRight']);
 });

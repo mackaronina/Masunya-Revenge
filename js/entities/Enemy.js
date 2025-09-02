@@ -13,7 +13,7 @@ export default class Enemy extends Entity {
         this.agro = false;
         this.dir = Phaser.Math.DegToRad(angle);
         this.patrolCircle = new PatrolCircle(this);
-        this.setCircle(19, 51, 51);
+        this.setCircle(20, 50, 50);
         this.scene.physics.add.collider(this, this.scene.playerBullets, (_, bulletHit) => this.bulletCallback(bulletHit));
         this.scene.physics.add.overlap(this, this.scene.playerHitboxes, (_, meleeHit) => this.meleeCallback(meleeHit));
         this.scene.physics.add.collider(this, this.scene.player, () => {

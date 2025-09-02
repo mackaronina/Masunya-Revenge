@@ -8,7 +8,7 @@ export default class WeaponRifle extends Weapon {
         }
         super({
             scene,
-            maxAmmo: 20,
+            maxAmmo: 30,
             dropSprite: 1,
             handsSprite,
             isSemi: false,

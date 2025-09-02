@@ -1,7 +1,7 @@
 const config = {
-    debug: false,
+    debug: true,
     startLevel: 1,
-    reactionTime: 400,
+    reactionTime: 500,
     mouseSensitivity: 1.25,
     bullet: {
         speed: 4500

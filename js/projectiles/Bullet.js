@@ -6,7 +6,7 @@ export default class Bullet extends PhysicObject {
         super(scene, 0, 0, 'bullet');
         this.defaultSpeed = config.bullet.speed;
         this.setOrigin(0.5);
-        this.setCircle(2, 7, 7);
+        this.setCircle(3, 6, 6);
         this.setScale(3);
         this.depth = config.depth.bullet;
         this.startTime = scene.time.now;

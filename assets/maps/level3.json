@@ -470,34 +470,6 @@
                 {
                  "gid":121,
                  "height":16,
-                 "id":127,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"angle",
-                         "type":"int",
-                         "value":0
-                        }, 
-                        {
-                         "name":"pattern",
-                         "type":"string",
-                         "value":"patrol"
-                        }, 
-                        {
-                         "name":"weapon",
-                         "type":"string",
-                         "value":"shotgun"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":16,
-                 "x":1200,
-                 "y":464
-                }, 
-                {
-                 "gid":121,
-                 "height":16,
                  "id":128,
                  "name":"",
                  "properties":[

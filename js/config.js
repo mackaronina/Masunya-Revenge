@@ -1,5 +1,5 @@
 const config = {
-    debug: true,
+    debug: false,
     startLevel: 1,
     reactionTime: 500,
     mouseSensitivity: 1.25,

@@ -1,9 +1,9 @@
 import Cursor from '../interface/Cursor.js';
 import MenuButton from '../interface/MenuButton.js';
 import BaseScene from './BaseScene.js';
-import MenuMasunyaSpin from '../interface/MenuMasunyaSpin.js';
 import MenuPic from '../interface/MenuPic.js';
 import config from '../config.js';
+import MenuMasunyaSpin from '../interface/MenuMasunyaSpin.js';
 
 export default class MenuScene extends BaseScene {
     constructor() {
@@ -22,12 +22,9 @@ export default class MenuScene extends BaseScene {
     create() {
         this.drawBackground();
         this.sound.add('menu_ost', {loop: true, volume: 1}).play();
-        this.anims.create({
-            key: 'anim_masunya_spin',
-            frames: this.anims.generateFrameNumbers('masunya_spin', {start: 0, end: 28}),
-            duration: 3000,
-            repeat: -1
-        });
+
+        MenuMasunyaSpin.createAnims(this);
+        
         this.cursor = new Cursor(this);
         new MenuMasunyaSpin(this, -550, true);
         new MenuMasunyaSpin(this, 550, false);

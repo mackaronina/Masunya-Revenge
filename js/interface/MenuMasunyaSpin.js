@@ -14,4 +14,13 @@ export default class MenuMasunyaSpin extends PhysicObject {
     static preload(scene) {
         scene.load.spritesheet('masunya_spin', 'assets/images/masunya_spin.png', {frameWidth: 408, frameHeight: 491});
     }
+
+    static createAnims(scene) {
+        scene.anims.create({
+            key: 'anim_masunya_spin',
+            frames: scene.anims.generateFrameNumbers('masunya_spin', {start: 0, end: 28}),
+            duration: 1500,
+            repeat: -1
+        });
+    }
 }
